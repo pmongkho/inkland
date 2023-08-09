@@ -1,17 +1,18 @@
 'use client'
+import { revalidatePath } from 'next/cache'
 import React, { useEffect, useState } from 'react'
 
 export default function Likes({ consult_id, current_user_id, user_like, likes }: any) {
-	const [like, setLike] = useState<Boolean>(user_like)
+	const [like, setLike] = useState<{isLiked: Boolean,likeCount: number}>({isLiked:user_like,likeCount:likes.count})
     useEffect(() => {
         
     },[like])
 	const handleLike = async () => {
-		if (like === true) {
-			setLike(false)
+		if (like.isLiked === true) {
+			setLike({ isLiked: false, likeCount: like.likeCount - 1 })
 		}
 	    else {
-			setLike(true)
+			setLike({ isLiked: true, likeCount: like.likeCount +1 })
 		}
 
 		const user_id = current_user_id
@@ -41,11 +42,11 @@ export default function Likes({ consult_id, current_user_id, user_like, likes }:
 				<svg
 					onClick={handleLike}
 					xmlns='http://www.w3.org/2000/svg'
-					fill={`${like ? 'purple' : 'none'}`}
+					fill={`${like.isLiked ? 'purple' : 'none'}`}
 					viewBox='0 0 24 24'
 					strokeWidth={1.5}
 					stroke='currentColor'
-					className={`w-8 h-8 text-opacity-100 ${like ? 'text-slate-100' : 'text-slate-400'}`}
+					className={`w-8 h-8 text-opacity-100 ${like.isLiked ? 'text-slate-100' : 'text-slate-400'}`}
 				>
 					<path
 						strokeLinecap='round'
@@ -54,7 +55,7 @@ export default function Likes({ consult_id, current_user_id, user_like, likes }:
 					/>
 				</svg>
             </button>
-            <span>{ likes.count }</span>
+            <span>{ like.likeCount }</span>
 		</div>
 	)
 }
