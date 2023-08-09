@@ -31,7 +31,6 @@ export default function Signup() {
 	}
 
 	const handleSubmit = async (data: FormData) => {
-		'use server'
 		if (!role) return
 
 		const name = session?.user.name
@@ -102,7 +101,7 @@ export default function Signup() {
 					<input
 						type='text'
 						className='block border border-grey-light w-full p-3 rounded mb-4'
-						value={session?.user.email}
+						value={session?.user.email as string}
 					/>
 
 					<input

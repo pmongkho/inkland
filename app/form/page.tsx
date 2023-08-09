@@ -26,7 +26,7 @@ export default function Form() {
 			const placement = data.get('placement')?.toString()
 			const comments = data.get('comments')?.toString()
 			const date = new Date().toString()
-			const user_id = session?.user.id as string
+			const user_id = session?.user.id
 
 			const consultation = {
 				style,
@@ -68,7 +68,7 @@ export default function Form() {
 					<input
 						type='email'
 						name='email'
-						value={session?.user.email}
+						value={session?.user.email as string}
 						required
 					/>
 					<input
@@ -88,6 +88,7 @@ export default function Form() {
 					<div className=' flex items-center justify-evenly'>
 						{uploadFiles?.map((file) => (
 							<Image
+								key={file.fileKey}
 								src={file.fileUrl}
 								alt='ref photo'
 								width={100}

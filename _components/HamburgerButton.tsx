@@ -57,7 +57,7 @@ export default function Hamburger() {
 						/>
 						<div>{session?.user?.userRole?.toUpperCase() as string}</div>
 						<div>{session?.user?.name}</div>
-						<div className='font-medium truncate'>{session?.user?.email}</div>
+						<div className='font-medium truncate'>{session?.user?.email as string}</div>
 					</div>
 				</div>
 				<ul
