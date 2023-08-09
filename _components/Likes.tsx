@@ -1,9 +1,8 @@
 'use client'
-import { revalidatePath } from 'next/cache'
 import React, { useEffect, useState } from 'react'
 
 export default function Likes({ consult_id, current_user_id, user_like, likes }: any) {
-	const [like, setLike] = useState<{isLiked: Boolean,likeCount: number}>({isLiked:user_like,likeCount:likes.count})
+	const [like, setLike] = useState<{isLiked: boolean,likeCount: number}>({isLiked:user_like,likeCount:likes.count})
     useEffect(() => {
         
     },[like])
