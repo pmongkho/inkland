@@ -3,9 +3,10 @@ import Hero from '@/_components/Hero'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import { authOptions } from '../api/auth/[...nextauth]/options'
 
 export default async function SignIn() {
-	const session = await getServerSession()
+	const session = await getServerSession(authOptions)
 	if (session?.user) {
 		redirect('/')
 	}
