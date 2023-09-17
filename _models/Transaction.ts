@@ -29,6 +29,6 @@ const transactionSchema = new Schema<TransactionDocument>({
 	purchasedAt: { type:Date, default: Date.now()},
 })
 
-const TransactionModel =
+const Transaction =
 	models?.Transaction || model('Transaction', transactionSchema)
-export default TransactionModel as Model<TransactionDocument>
+export default Transaction as Model<TransactionDocument>

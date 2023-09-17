@@ -1,3 +1,5 @@
+import PublicChat from '@/_models/PublicChat'
+
 export const GET = async () => {
-    return null
+    return await PublicChat.findOne()
 }

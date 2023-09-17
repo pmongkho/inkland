@@ -1,3 +1,5 @@
+import BuyerSellerChat from '@/_models/BuyerSellerChat'
+
 export const POST = async () => {
-    return null
+    return await BuyerSellerChat.findOne()
 }

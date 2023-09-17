@@ -93,7 +93,9 @@ export default function JobForm() {
 					<select name='style' className='' placeholder='Style'>
 						<option selected>Choose Style</option>
 						{tattooStyles.map((style) => (
-							<option key={style.style} value={style.style}>{style.style}</option>
+							<option key={style.style} value={style.style}>
+								{style.style}
+							</option>
 						))}
 					</select>
 

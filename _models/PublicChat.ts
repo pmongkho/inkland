@@ -20,5 +20,5 @@ const publicChatSchema = new Schema<PublicChatDocument>({
     }]
 })
 
-const PublicChatModel = models?.PublicChat || model('PublicChat', publicChatSchema)
-export default PublicChatModel as Model<PublicChatDocument>
+const PublicChat = models?.PublicChat || model('PublicChat', publicChatSchema)
+export default PublicChat as Model<PublicChatDocument>

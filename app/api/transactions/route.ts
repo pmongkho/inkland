@@ -1,3 +1,5 @@
+import Transaction from '@/_models/Transaction'
+
 export const GET = async () => {
-	return null
+	return await Transaction.findOne()
 }

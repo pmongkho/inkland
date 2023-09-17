@@ -26,6 +26,6 @@ const buyerSellerChatSchema = new Schema<BuyerSellerChatDocument>({
 	],
 })
 
-const BuyerSellerChatModel =
+const BuyerSellerChat =
 	models?.BuyerSellerChat || model('BuyerSellerChat', buyerSellerChatSchema)
-export default BuyerSellerChatModel as Model<BuyerSellerChatDocument>
+export default BuyerSellerChat as Model<BuyerSellerChatDocument>
