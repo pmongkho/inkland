@@ -1,3 +1,4 @@
+import startDb from '@/_lib/db'
 import PublicChat from '@/_models/PublicChat'
 
 export const GET = async () => {
