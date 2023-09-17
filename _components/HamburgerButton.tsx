@@ -4,11 +4,14 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Link from 'next/link'
+import Avatar from './Avatar'
+
 
 export default function Hamburger() {
 	const { data: session } = useSession()
+	const user = session?.user
 	const router = useRouter()
-
 	const [active, setActive] = useState(false)
 	const handleClick = () => {
 		setActive(!active)
@@ -26,20 +29,16 @@ export default function Hamburger() {
 				onClick={handleClick}
 			>
 				<span className='sr-only'>Open user menu</span>
-				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					fill='none'
-					viewBox='0 0 24 24'
-					strokeWidth={1.5}
-					stroke='currentColor'
-					className='w-8 h-8'
-				>
-					<path
-						strokeLinecap='round'
-						strokeLinejoin='round'
-						d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
-					/>
-				</svg>
+
+				<Avatar user={user} size={40} />
+
+				{/* <Image
+					src={user?.image as string}
+					className='rounded-full'
+					alt='profile pic'
+					width={40}
+					height={40}
+				/> */}
 			</button>
 
 			<div
@@ -48,16 +47,12 @@ export default function Hamburger() {
 			>
 				<div className=' text-center px-4 py-3 text-sm text-gray-900 dark:text-white'>
 					<div>
-						<Image
-							className='rounded-full m-auto'
-							src={session?.user.image as string}
-							alt='profile picture'
-							width={50}
-							height={50}
-						/>
-						<div>{session?.user?.userRole?.toUpperCase() as string}</div>
-						<div>{session?.user?.name}</div>
-						<div className='font-medium truncate'>{session?.user?.email as string}</div>
+					
+						<Avatar user={user} size={50} />
+
+						<div>{user?.role}</div>
+						<div>{user?.name}</div>
+						<div className='font-medium truncate'>{user?.email}</div>
 					</div>
 				</div>
 				<ul
@@ -65,12 +60,12 @@ export default function Hamburger() {
 					aria-labelledby='dropdownUserAvatarButton'
 				>
 					<li>
-						<a
-							href='#'
+						<Link
+							href='/profile/content/saved'
 							className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
 						>
-							Dashboard
-						</a>
+							Profile
+						</Link>
 					</li>
 					<li>
 						<a

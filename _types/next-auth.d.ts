@@ -5,7 +5,7 @@ import { JWT, DefaultJWT } from 'next-auth/jwt'
 declare module 'next-auth' {
 	interface Session {
 		user: {
-			id: ObjectId|Request
+			id: ObjectId|Request|undefined
 			userRole: string
 			email: Request | string| undefined
 			name: string

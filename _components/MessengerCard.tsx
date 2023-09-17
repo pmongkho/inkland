@@ -6,13 +6,13 @@ export default function MessengerCard() {
 	return (
 		<div className='p-2 flex items-center justify-between w-screen mb-2 hover:bg-slate-100 '>
 			<div className='relative'>
-				<Image
+				{/* <Image
 					width={200}
 					height={200}
 					className='rounded-full w-full'
 					src={profile}
 					alt='profile pic'
-				/>
+				/> */}
 				<span className='top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full'></span>
 			</div>
 

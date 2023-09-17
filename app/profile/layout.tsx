@@ -1,24 +1,21 @@
-import { getServerSession } from 'next-auth'
-import Image from 'next/image'
-import { authOptions } from '../api/auth/[...nextauth]/options'
+'use client'
+import Avatar from '@/_components/Avatar'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-export default async function ProfileLayout({
+export default function ProfileLayout({
 	children,
 }: {
 	children: React.ReactNode
-    }) {
-    const session = await getServerSession(authOptions)
-    const user = session?.user
+}) {
+	const { data: session } = useSession()
+	const user = session?.user
+	const pathname = usePathname()
 	return (
 		<div className=' [&>*]:bg-slate-50  shadow-lg'>
 			<div className='  relative flex items-center justify-left p-2 '>
-				<Image
-					src={user?.image as string}
-					alt='default'
-					width={100}
-					height={100}
-					className='rounded-full m-2 mr-4'
-				/>
+				<Avatar user={user} size={80} />
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					fill='none'
@@ -34,38 +31,54 @@ export default async function ProfileLayout({
 					/>
 				</svg>
 
-				<div className='[&>*]:block'>
-					<small>{user?.name}</small>
-					<small>{user?.email as string}</small>
+				<div className='[&>*]:block ml-4'>
+					<small>@{user?.username}</small>
+					<small>{user?.name as string}</small>
 					<small>{user?.zipcode as string}</small>
 				</div>
 			</div>
 			<div className='w-[50vw] truncate ml-4'>
 				<small>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Exercitationem veritatis tempora obcaecati rem, voluptatem, ipsum
-					autem quam sit tempore perspiciatis facilis esse aliquam enim eius!
-					Cumque consectetur doloribus sapiente veniam!
+					{/* <small>{store.getState().users.user.profile?.bio}</small> */}
 				</small>
 			</div>
-			{/* <div className=''>
-				<big>Stats</big>
-				<div className='flex justify-evenly text-left'>
-					<div className='[&>*]:block'>
-						<small>Tattoos won: ###</small>
-						<small>Inkland Rating: ###</small>
-						<small>Inkland Revenue: ###</small>
-					</div>
-					<div className='[&>*]:block'>
-						<small>1. Black & Grey: ###</small>
-						<small>2. Color: ###</small>
-						<small>3. Japanese Traditional: ###</small>
-					</div>
-				</div>
-			</div> */}
+	
+			<div className='flex justify-evenly items-end py-4 border-b-slate-300 border-b'>
+				<Link href='/profile/content/saved'>
+					<div
+						className={`${
+							pathname === '/profile/content/saved' ? '' : 'hidden'
+						} p-1 bg-slate-300 rounded hover:visible`}
+					></div>
+					<small>SAVED</small>
+				</Link>
 
-            { children }
-        
+				<Link href='/profile/content/my-stuff'>
+					<div
+						className={`${
+							pathname === '/profile/content/my-stuff' ? '' : 'hidden'
+						} p-1 bg-slate-300 rounded hover:visible`}
+					></div>
+					<small>MY STUFF</small>
+				</Link>
+				<Link href='/profile/content/tagged'>
+					<div
+						className={`${
+							pathname === '/profile/content/tagged' ? '' : 'hidden'
+						} p-1 bg-slate-300 rounded hover:visible`}
+					></div>
+					<small>TAGGED</small>
+				</Link>
+				<Link href='/profile/content/stats'>
+					<div
+						className={`${
+							pathname === '/profile/content/stats' ? '' : 'hidden'
+						} p-1 bg-slate-300 rounded hover:visible`}
+					></div>
+					<small>STATS</small>
+				</Link>
+			</div>
+			{children}
 		</div>
 	)
 }

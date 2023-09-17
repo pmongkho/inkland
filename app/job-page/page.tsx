@@ -3,18 +3,18 @@ import { getServerSession } from 'next-auth'
 
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/options'
-import { getAllConsultationsSortedDate } from '../api/consultations/route'
+import { getAllJobs } from '../api/jobs/route'
 
 export default async function JobPage() {
 	const session = await getServerSession(authOptions)
-	const consultation = await getAllConsultationsSortedDate()
+	const jobs = await getAllJobs()
 
 	return (
 		<div className='pt-20 pb-20'>
-			{consultation?.map((item): any => (
+			{jobs?.map((item): any => (
 				<JobCard
 					key={item?._id}
-					user_id={item.user_id}
+					author={item.author}
 					data={item}
 					user={session?.user}
 				/>

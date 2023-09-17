@@ -7,7 +7,7 @@ import 'swiper/css/pagination'
 import Image from 'next/image'
 
 
-export default function SwiperPics({ data }: any) {
+export default function SwiperPics({ photos }: any) {
 	return (
 		<Swiper
 			pagination={{
@@ -17,7 +17,7 @@ export default function SwiperPics({ data }: any) {
 			className=''
 		>
 			
-				{data?.photos.map((item: any) => (
+				{photos.map((item: any) => (
 					<SwiperSlide>
 						<Image
 							src={item.fileUrl as string}

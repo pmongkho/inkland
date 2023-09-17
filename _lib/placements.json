@@ -1,0 +1,22 @@
+[
+    { "place": "Head" },
+    { "place": "Face" },
+    { "place": "Mouth" },
+    { "place": "Neck" },
+    { "place": "Shoulder" },
+    { "place": "Arm Pit" },
+    { "place": "Upper Arm" },
+    { "place": "Lower Arm" },
+    { "place": "Inner Upper Arm" },
+    { "place": "Inner Lower Arm" },
+    { "place": "Chest" },
+    { "place": "Ribs" },
+    { "place": "Stomach" },
+    { "place": "Back" },
+    { "place": "Hip" },
+    { "place": "Groin" },
+    { "place": "Upper Leg" },
+    { "place": "Lower Leg" },
+    { "place": "Foot" },
+    { "place": "Hands" }
+]

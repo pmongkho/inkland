@@ -14,7 +14,7 @@ export default async function SignIn() {
 	return (
 		<div className='h-screen'>
 				<Hero />
-		<div className='flex items-center justify-center h-[50vh]'>
+		<div className='flex items-center justify-center h-[40vh]'>
 					<div className='bg-white shadow rounded-lg divide-y divide-gray-200 '>
 						<GoogleButton />
 					</div>

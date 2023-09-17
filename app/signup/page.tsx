@@ -8,19 +8,19 @@ import { useSession } from 'next-auth/react'
 export default function Signup() {
 	const router = useRouter()
 	const { data: session } = useSession()
-	if (session?.user?.zipcode) {
+	if (session?.user.role) {
 		router.replace('/')
 	}
 
 	const [roleArtist, setArtistRole] = useState(false)
 	const [roleClient, setClientRole] = useState(false)
-	const [role, setRole] = useState('')
+	const [_role, setRole] = useState('')
 
 	const roleActive = 'bg-blue-950 text-white'
 	const roleInactive = 'border-blue-950 border'
 
 	const handleRoles = (value: string) => {
-		if (value === 'artist') {
+		if (value === 'ARTIST') {
 			setArtistRole(true)
 			setClientRole(false)
 		} else {
@@ -31,22 +31,24 @@ export default function Signup() {
 	}
 
 	const handleSubmit = async (data: FormData) => {
-		if (!role) return
+		if (!_role) return
 
+		const username = data.get('username')?.toString()
 		const name = session?.user.name
-		const phone = data.get('phone')?.toString()
 		const email = session?.user.email
 		const zipcode = data.get('zipcode')?.toString()
 		const image = session?.user.image
-		const userRole = role
+		const role = _role
 
 		const userInfo = {
-			name,
-			phone,
-			email,
-			zipcode,
-			image,
-			userRole,
+			username,
+			role,
+			profile: {
+				name,
+				email,
+				image,
+				zipcode,
+			},
 		}
 
 		try {
@@ -71,7 +73,7 @@ export default function Signup() {
 					<h1 className='mb-8 text-3xl text-center'>Sign up</h1>
 					<div className='flex justify-between items-center [&>*]:w-full mb-4'>
 						<div
-							onClick={() => handleRoles('artist')}
+							onClick={() => handleRoles('ARTIST')}
 							className={`mr-2 text-center py-3 rounded ${
 								roleArtist ? roleActive : roleInactive
 							} text-blue-950 `}
@@ -79,7 +81,7 @@ export default function Signup() {
 							Artist
 						</div>
 						<div
-							onClick={() => handleRoles('user')}
+							onClick={() => handleRoles('CLIENT')}
 							className={`text-center py-3 rounded ${
 								roleClient ? roleActive : roleInactive
 							}  text-blue-950`}
@@ -93,7 +95,7 @@ export default function Signup() {
 						placeholder='Username'
 						name='username'
 					/>
-					<input
+					{/* <input
 						type='text'
 						className='block border border-grey-light w-full p-3 rounded mb-4'
 						value={session?.user.name}
@@ -102,20 +104,14 @@ export default function Signup() {
 						type='text'
 						className='block border border-grey-light w-full p-3 rounded mb-4'
 						value={session?.user.email as string}
-					/>
+					/> */}
 
-					<input
-						type='tel'
-						className='block border border-grey-light w-full p-3 rounded mb-4'
-						name='phone'
-						placeholder='Phone'
-						required
-					/>
 					<input
 						type='text'
 						className='block border border-grey-light w-full p-3 rounded mb-4'
 						name='zipcode'
 						placeholder='Zipcode'
+						pattern='^(\d{5}(?:\-\d{4})?)$'
 						required
 					/>
 

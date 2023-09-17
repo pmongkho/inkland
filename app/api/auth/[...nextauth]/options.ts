@@ -1,13 +1,13 @@
 import startDb from '@/_lib/db'
-import UserModel from '@/_models/userModel'
+import User from '@/_models/User'
+import { login } from '@/_redux/features/userSlice'
+import { store } from '@/_redux/store'
 import { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-
 
 export const authOptions: NextAuthOptions = {
 	pages: {
 		signIn: '/login',
-		newUser: '/signup',
 	},
 	session: {
 		strategy: 'jwt',
@@ -28,20 +28,23 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
-				token.userRole = user.userRole
+				token.role = user.role
 				token.id = user.id
 			}
 			return token
 		},
 		async session({ session, token }) {
 			await startDb()
-			const sessionUser = await UserModel.findOne({ email: session.user.email })
+			const sessionUser = await User.findOne({
+				'profile.email': session.user.email,
+			})
 			if (session?.user) {
 				session.user.id = sessionUser?._id
-				session.user.userRole = sessionUser?.userRole as string
-				session.user.zipcode = sessionUser?.zipcode as string
-				session.user.phone = sessionUser?.phone as string
+				session.user.username = sessionUser?.username as string
+				session.user.role = sessionUser?.role as string
+				session.user.zipcode = sessionUser?.profile.zipcode as string
 			}
+			store.dispatch(login(sessionUser))
 			return session
 		},
 	},
