@@ -3,11 +3,11 @@ import { getServerSession } from 'next-auth'
 
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/options'
-import { getAllJobs } from '../api/jobs/route'
+import { GET} from '../api/jobs/route'
 
 export default async function JobPage() {
 	const session = await getServerSession(authOptions)
-	const jobs = await getAllJobs()
+	const jobs = await GET()
 
 	return (
 		<div className='pt-20 pb-20'>
