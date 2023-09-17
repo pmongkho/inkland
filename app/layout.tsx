@@ -21,10 +21,10 @@ export default async function RootLayout({
 		<html lang='en'>
 			<AuthProvider>
 				<ReduxProvider>
-					<body className={`${inter.className} bg-slate-50 relative `}>
+					<body className={`${inter.className} bg-slate-800 relative text-white `}>
 						<Header />
 								
-						<main className='  text-slate-950 h-full'>{children}</main>
+						<main className=' h-full'>{children}</main>
 					</body>{' '}
 				</ReduxProvider>
 			</AuthProvider>

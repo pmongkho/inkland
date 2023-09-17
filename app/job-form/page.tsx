@@ -84,13 +84,18 @@ export default function JobForm() {
 					<input
 						type='text'
 						name='subjectMatter'
+						className=' bg-slate-800 text-white border border-slate-600  outline-none'
 						placeholder='Subject Matter (What is the tattoo of?)'
 						required
 					/>
 
 					{/* <input type='text' name='style' placeholder='Style' list='styles'required /> */}
 
-					<select name='style' className='' placeholder='Style'>
+					<select
+						name='style'
+						className=' bg-slate-800 text-white border border-slate-600  outline-none'
+						placeholder='Style'
+					>
 						<option selected>Choose Style</option>
 						{tattooStyles.map((style) => (
 							<option key={style.style} value={style.style}>
@@ -102,6 +107,7 @@ export default function JobForm() {
 					<input
 						type='text'
 						name='placement'
+						className=' bg-slate-800 text-white border border-slate-600  outline-none'
 						placeholder='Placement (Where on the body? be specific!)'
 						required
 					/>
@@ -145,11 +151,15 @@ export default function JobForm() {
 							<input type='text' name='duration' placeholder='Duration' />
 						</>
 					)}
-					<textarea name='addlInfo' placeholder="Add'l. Comments?" />
+					<textarea
+						name='addlInfo'
+						className=' bg-slate-800 text-white border border-slate-600  outline-none'
+						placeholder="Add'l. Comments?"
+					/>
 
 					<button
 						type='submit'
-						className=' text-white bg-blue-950 border border-gray-400'
+						className=' text-white  border border-cyan-500'
 					>
 						Submit
 					</button>

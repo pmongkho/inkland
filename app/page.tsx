@@ -15,7 +15,7 @@ export default async function Home() {
 	return (
 		<div className='h-screen flex items-start justify-center relative'>
 			<div className=''>
-				<div className=' [&>*]:bg-slate-50 text-blue-950  shadow-lg w-full mb-4'>
+				<div className=' w-full mb-4'>
 					<div className='   flex items-center justify-between p-2 '>
 						<Link href='/profile/content/saved'>
 							<Avatar user={user} size={70} />
@@ -38,7 +38,7 @@ export default async function Home() {
 					alt='artist client picture'
 				/>
 				<Link href={`${user?.role === 'ARTIST' ? '/job-page' : 'job-form'}`}>
-					<button className=' absolute top-[50vh] right-[50%] bg-slate-700 text-white text-2xl px-4 py-2 rounded-md shadow-lg'>
+					<button className=' absolute top-[50vh] right-[50%] bg-slate-800 text-white text-2xl px-4 py-2 rounded-md shadow-lg'>
 						Start Now
 					</button>
 				</Link>

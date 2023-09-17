@@ -13,7 +13,7 @@ export default function Header() {
 	return (
 		<>
 			<div>
-				<nav className='z-10 mt-40 fixed bottom-0 w-full bg-blue-950 text-white'>
+				<nav className='z-10 mt-40 fixed bottom-0 w-full bg-slate-800 border-t border-cyan-500 text-white'>
 					<ul className='flex items-center justify-between mx-2 py-2 [&>*]:cursor-pointer'>
 						<li className='flex '>
 							<Link href='/'>

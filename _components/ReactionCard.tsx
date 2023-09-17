@@ -16,27 +16,25 @@ export default function ReactionCard({
 	const showCommentForm = () => {
 		setExpandComment(!expandComment)
 	}
-    
+
 	const handleComment = async (form: FormData) => {
 		const author = user.username
 		const job = data._id
-        const content = form.get('comment')?.toString() as string
-        // const mentions = content?.match('(@\w*')
+		const content = form.get('comment')?.toString() as string
+		// const mentions = content?.match('(@\w*')
 
 		const comment = new Comment({
 			author,
 			job,
-            content,
-            // mentions
+			content,
+			// mentions
 		})
 
 		try {
 			const res = await fetch('/api/comments', {
 				method: 'POST',
 				body: JSON.stringify(comment),
-            }).then(() => {
-
-            })
+			}).then(() => {})
 		} catch (error) {
 			console.error(error)
 		}
@@ -58,19 +56,19 @@ export default function ReactionCard({
 
 				<div
 					onClick={showCommentForm}
-					className={`${expandComment ? 'text-blue-950' : 'text-slate-400'}`}
+					className={` text-white`}
 				>
 					Comments
 				</div>
 				<button>
-					<div className='flex items-center justify-center text-blue-950  p-2 rounded-md'>
+					<div className='flex items-center justify-center  p-2 rounded-md'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='w-6 h-6 block'
+							className='w-6 h-6 block text-cyan-500'
 						>
 							<path
 								strokeLinecap='round'
@@ -78,7 +76,7 @@ export default function ReactionCard({
 								d='M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
 							/>
 						</svg>
-						<div>
+						<div className=' text-white'>
 							{user?.role === 'ARTIST' && _author?.role === 'CLIENT'
 								? 'Do'
 								: 'Get'}{' '}
@@ -98,12 +96,12 @@ export default function ReactionCard({
 				</div>
 				<form action={handleComment}>
 					<textarea
-						className='w-full p-2'
+						className='w-full p-2 bg-slate-800 text-white border border-slate-600 rounded'
 						placeholder='say something..'
 						name='comment'
 					></textarea>
 					<button
-						className='inline-flex items-center my-2 py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-950 rounded-lg resize-y'
+						className='inline-flex items-center my-2 py-1 px-4 text-center text-white bg-slate-800 rounded-lg border border-slate-600 shadow-lg'
 						type='submit'
 					>
 						Post comment

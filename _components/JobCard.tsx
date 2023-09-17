@@ -17,7 +17,7 @@ export async function JobCard({ data, author, user }: any) {
 	console.log('comments', comments)
 
 	return (
-		<div className=' bg-slate-50 pt-2 my-4 shadow-lg'>
+		<div className=' bg-slate-800 pt-2 my-4 shadow-lg'>
 			{author.toString() === user?.id.toString() && (
 				<div className=' flex items-center justify-end'>
 					<button className=' p-2 rounded-full '>

@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import React from 'react'
-import profile from '../_media/images/profile.jpeg'
 
 export default function MessengerCard() {
 	return (
@@ -18,7 +15,7 @@ export default function MessengerCard() {
 
 			<div className='[&>*]:block '>
 				<big>Jane Doe</big>
-				<small className=' mx-2 text-left h-10 overflow-y-hidden'>
+				<small className=' mx-2 text-left h-10 line-clamp-2'>
 					Lorem, ipsum dolor sit amet consec adipisicing elit. Eius harum a rem
 					error nemo odit voluptatum maxime fugit nesciunt repudiandae eos
 					obcaecati, omnis sequi ea earum consequatur eveniet fuga voluptatem?

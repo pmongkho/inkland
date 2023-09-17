@@ -48,7 +48,7 @@ export default function LikeButton({
 					strokeWidth={1.5}
 					stroke='currentColor'
 					className={`w-8 h-8 text-opacity-100 ${
-						like.liked ? 'text-slate-100' : 'text-slate-400'
+						like.liked ? ' text-purple-800' : 'text-slate-400'
 					}`}
 				>
 					<path
@@ -58,7 +58,7 @@ export default function LikeButton({
 					/>
 				</svg>
 			</button>
-			<span>{like.likeCount}</span>
+			<span className={`${like.likeCount>0?' text-white': ' text-slate-4000'}`}>{like.likeCount}</span>
 		</div>
 	)
 }
