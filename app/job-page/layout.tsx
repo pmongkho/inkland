@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function JobLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div>
+		<div className='relative'>
 			<div className='border-b border-slate-700 px-2 py-4 flex justify-between items-center [&>*]:block z-10 fixed w-full bg-slate-800'>
 				<input
 					type='search'

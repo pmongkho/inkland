@@ -3,7 +3,7 @@ import MessengerCard from './MessengerCard'
 
 export default function MessengerView() {
 	return (
-		<div className=' pt-20'>
+		<div className=''>
 			<MessengerCard />
 			<MessengerCard />
 			<MessengerCard />
