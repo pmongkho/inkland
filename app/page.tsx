@@ -13,7 +13,7 @@ export default async function Home() {
 		redirect('/signup')
 	}
 	return (
-		<div className='h-screen flex items-start justify-center relative'>
+		<div className='pt-4 flex items-start justify-center relative'>
 			<div className=''>
 				<div className=' w-full mb-4'>
 					<div className='   flex items-center justify-between p-2 '>

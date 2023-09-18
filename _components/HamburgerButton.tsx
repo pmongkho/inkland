@@ -35,9 +35,9 @@ export default function Hamburger() {
 
 			<div
 				id='dropdownAvatar'
-				className={`absolute right-0 bottom-12 ${handleHidden()} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 border border-slate-900`}
+				className={` z-30 absolute right-0 ${handleHidden()} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 border border-slate-900`}
 			>
-				<div className=' rounded-lg bg-slate-700 text-center px-4 py-3 text-sm text-gray-900 dark:text-white'>
+				<div className=' rounded-lg bg-slate-700 text-center px-4 py-3 text-sm dark:text-white'>
 					<div>
 						<Avatar user={user} size={50} />
 

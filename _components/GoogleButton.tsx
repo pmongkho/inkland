@@ -5,7 +5,7 @@ import { JSX, SVGProps } from 'react'
 const GoogleButton = () => {
 	return (
 		<div
-			className='flex w-full justify-center gap-5 rounded bg-white py-4 px-4 text-sm font-bold drop-shadow-md hover:bg-gray-50'
+			className='flex text-black w-full justify-center gap-5 rounded bg-white py-4 px-4 text-sm font-bold drop-shadow-md hover:bg-gray-50'
 			onClick={()=>signIn('google')}
 		>
 			<GoogleLogo />
@@ -24,6 +24,7 @@ const GoogleLogo = (
 		height='24'
 		viewBox='0 0 775 794'
 		fill='none'
+
 		xmlns='http://www.w3.org/2000/svg'
 		{...props}
 	>

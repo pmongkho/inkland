@@ -3,7 +3,7 @@ import MessengerCard from './MessengerCard'
 
 export default function MessengerView() {
 	return (
-		<div className=' py-36'>
+		<div className=' pt-20'>
 			<MessengerCard />
 			<MessengerCard />
 			<MessengerCard />

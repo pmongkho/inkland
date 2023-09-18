@@ -1,44 +1,48 @@
 'use client'
 
+import { getComments } from '@/app/api/comments/route'
 import Comment from '@/_models/Comments'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import LikeButton from './LikeButton'
 
 export default function ReactionCard({
-	data,
+	_data,
 	user,
 	_author,
-	didUserLike,
-	comments,
+    didUserLike,
+    comments
 }: any) {
+	const queryClient = useQueryClient()
 	const [expandComment, setExpandComment] = useState(false)
-	const [_comments, setComments] = useState(comments)
 	const showCommentForm = () => {
 		setExpandComment(!expandComment)
 	}
+	const { data, isSuccess } = useQuery({
+		queryKey: ['comments'],
+        queryFn: async () => await getComments(_data._id),
+        initialData:comments
+	})
 
-	const handleComment = async (form: FormData) => {
-		const author = user.username
-		const job = data._id
-		const content = form.get('comment')?.toString() as string
-		// const mentions = content?.match('(@\w*')
+	const { mutate: submitComment } = useMutation({
+		mutationFn: async (form: FormData) => {
+			const author = user
+			const job = _data._id
+			const content = form.get('comment')?.toString() as string
+			// const mentions = content?.match('(@\w*')
 
-		const comment = new Comment({
-			author,
-			job,
-			content,
-			// mentions
-		})
-
-		try {
-			const res = await fetch('/api/comments', {
-				method: 'POST',
-				body: JSON.stringify(comment),
-			}).then(() => {})
-		} catch (error) {
-			console.error(error)
-		}
-	}
+			const comment = new Comment({
+				author,
+				job,
+				content,
+			})
+			await axios.post('/api/comments', JSON.stringify(comment))
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries(['comments'])
+		},
+	})
 
 	return (
 		<>
@@ -46,18 +50,15 @@ export default function ReactionCard({
 				<LikeButton
 					data={data}
 					//job post id
-					jobId={data?._id}
+					jobId={_data?._id}
 					//current userid
-					sessionUserId={user?.id}
+					sessionUserId={user?._id}
 					//boolean if user liked the job
 					didUserLike={didUserLike}
-					likeCount={data?.likes.length}
+					likeCount={_data?.likes.length}
 				/>
 
-				<div
-					onClick={showCommentForm}
-					className={` text-white`}
-				>
+				<div onClick={showCommentForm} className={` text-white`}>
 					Comments
 				</div>
 				<button>
@@ -68,7 +69,7 @@ export default function ReactionCard({
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='w-6 h-6 block text-cyan-500'
+							className='w-6 h-6 block mx-2 text-cyan-500'
 						>
 							<path
 								strokeLinecap='round'
@@ -87,16 +88,16 @@ export default function ReactionCard({
 			</div>
 			<div className={`${expandComment ? 'visible' : 'hidden'}`}>
 				<div>
-					{_comments?.map((item: any) => (
+					{data?.map((item: any) => (
 						<div className='flex items-center justify-between'>
 							<small>{item.author}</small>
 							<small>{item.content}</small>
 						</div>
 					))}
 				</div>
-				<form action={handleComment}>
+				<form action={submitComment}>
 					<textarea
-						className='w-full p-2 bg-slate-800 text-white border border-slate-600 rounded'
+						className='w-full p-2 bg-slate-800 text-white border border-slate-600 rounded focus:outline-none'
 						placeholder='say something..'
 						name='comment'
 					></textarea>

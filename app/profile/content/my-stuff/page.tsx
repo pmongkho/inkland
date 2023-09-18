@@ -11,7 +11,7 @@ export default async function MyStuff() {
 			return <h1>No Data Found</h1>
 		}
 	return (
-		<div className='pb-20'>
+		<div className=''>
 			{jobs.map((item: any) => (
 				<JobCard
 					key={item?._id}

@@ -13,7 +13,7 @@ export default async function Stats({ params }: any) {
   }
 	return (
 		<>
-			<div className='pb-20'>
+			<div className=''>
 				{jobs?.map((item: any) => (
 					<JobCard
 						key={item?._id}

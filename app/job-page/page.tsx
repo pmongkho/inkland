@@ -1,16 +1,17 @@
 import { JobCard } from '@/_components/JobCard'
 import { getServerSession } from 'next-auth'
-
-import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/options'
-import { GET} from '../api/jobs/route'
+import axios from 'axios'
+import { getJobs } from '@/_lib/Jobs'
 
 export default async function JobPage() {
+
 	const session = await getServerSession(authOptions)
-	const jobs = await GET()
+	const jobs = await getJobs()
 
 	return (
-		<div className='pt-20 pb-20'>
+		<div className='pt-20'>
+
 			{jobs?.map((item): any => (
 				<JobCard
 					key={item?._id}

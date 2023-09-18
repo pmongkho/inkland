@@ -2,8 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Header from '../_components/Header'
-import AuthProvider from '@/_lib/AuthProvider'
-import { ReduxProvider } from '../_redux/provider'
+import Provider from '@/_lib/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,15 +18,14 @@ export default async function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<AuthProvider>
-				<ReduxProvider>
-					<body className={`${inter.className} bg-slate-800 relative text-white `}>
-						<Header />
-								
-						<main className=' h-full'>{children}</main>
-					</body>{' '}
-				</ReduxProvider>
-			</AuthProvider>
+			<Provider>
+				<body
+					className={`${inter.className} bg-slate-800 relative text-white `}
+				>
+					<Header />
+					<main className=' pt-14'>{children}</main>
+				</body>{' '}
+			</Provider>
 		</html>
 	)
 }

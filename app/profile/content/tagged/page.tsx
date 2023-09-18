@@ -11,7 +11,7 @@ export default async function Tagged({ params }: any) {
 		}
   return (
 		<>
-			<div className='pb-20'>
+			<div className=''>
 				{jobs?.map((item: any) => (
 					<JobCard
 						key={item?._id}

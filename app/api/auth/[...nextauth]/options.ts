@@ -1,7 +1,5 @@
 import startDb from '@/_lib/db'
 import User from '@/_models/User'
-import { login } from '@/_redux/features/userSlice'
-import { store } from '@/_redux/store'
 import { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
@@ -44,7 +42,6 @@ export const authOptions: NextAuthOptions = {
 				session.user.role = sessionUser?.role as string
 				session.user.zipcode = sessionUser?.profile.zipcode as string
 			}
-			store.dispatch(login(sessionUser))
 			return session
 		},
 	},

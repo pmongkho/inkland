@@ -16,8 +16,8 @@ export default function Signup() {
 	const [roleClient, setClientRole] = useState(false)
 	const [_role, setRole] = useState('')
 
-	const roleActive = 'bg-blue-950 text-white'
-	const roleInactive = 'border-blue-950 border'
+	const roleActive = 'border-cyan-500 border text-white'
+	const roleInactive = 'border-slate-900 border'
 
 	const handleRoles = (value: string) => {
 		if (value === 'ARTIST') {
@@ -64,75 +64,62 @@ export default function Signup() {
 	}
 
 	return (
-		<div className='bg-grey-lighter min-h-screen flex flex-col'>
-			<div className='w-screen container flex-1 flex flex-col items-center justify-center '>
-				<form
-					action={handleSubmit}
-					className=' bg-white px-6 py-8 rounded shadow-md text-black w-full'
-				>
-					<h1 className='mb-8 text-3xl text-center'>Sign up</h1>
-					<div className='flex justify-between items-center [&>*]:w-full mb-4'>
-						<div
-							onClick={() => handleRoles('ARTIST')}
-							className={`mr-2 text-center py-3 rounded ${
-								roleArtist ? roleActive : roleInactive
-							} text-blue-950 `}
-						>
-							Artist
-						</div>
-						<div
-							onClick={() => handleRoles('CLIENT')}
-							className={`text-center py-3 rounded ${
-								roleClient ? roleActive : roleInactive
-							}  text-blue-950`}
-						>
-							Client
-						</div>
+		<div className='h-screen flex flex-col items-start justify-center '>
+			<form
+				action={handleSubmit}
+				className='border border-slate-700 px-6 py-8 rounded shadow-md w-full'
+			>
+				<h1 className='mb-8 text-3xl text-center'>Sign up</h1>
+				<div className='flex justify-between items-center [&>*]:w-full mb-4'>
+					<div
+						onClick={() => handleRoles('ARTIST')}
+						className={`mr-2 text-center py-3 rounded ${
+							roleArtist ? roleActive : roleInactive
+						}  `}
+					>
+						Artist
 					</div>
-					<input
-						type='text'
-						className='block border border-grey-light w-full p-3 rounded mb-4'
-						placeholder='Username'
-						name='username'
-					/>
-					{/* <input
-						type='text'
-						className='block border border-grey-light w-full p-3 rounded mb-4'
-						value={session?.user.name}
-					/>
-					<input
-						type='text'
-						className='block border border-grey-light w-full p-3 rounded mb-4'
-						value={session?.user.email as string}
-					/> */}
-
-					<input
-						type='text'
-						className='block border border-grey-light w-full p-3 rounded mb-4'
-						name='zipcode'
-						placeholder='Zipcode'
-						pattern='^(\d{5}(?:\-\d{4})?)$'
-						required
-					/>
-
-					<button
-						type='submit'
-						className='w-full text-center py-3 rounded bg-blue-950 hover:bg-blue-800 text-white hover:bg-green-dark focus:outline-none my-1'
+					<div
+						onClick={() => handleRoles('CLIENT')}
+						className={`text-center py-3 rounded ${
+							roleClient ? roleActive : roleInactive
+						}  `}
 					>
-						Create Account
-					</button>
-				</form>
-
-				<div className='text-grey-dark mt-6'>
-					Already have an account?
-					<Link
-						className='no-underline border-b border-blue text-blue'
-						href='/login'
-					>
-						Log in
-					</Link>
-					.
+						Client
+					</div>
 				</div>
+				<input
+					type='text'
+					className='bg-slate-800 block border border-slate-700 w-full p-3 rounded mb-4 focus:outline-none'
+					placeholder='Username'
+					name='username'
+				/>
+				<input
+					type='text'
+					className=' bg-slate-800 block border border-slate-700 w-full p-3 rounded mb-4 focus:outline-none'
+					name='zipcode'
+					placeholder='Zipcode'
+					pattern='^(\d{5}(?:\-\d{4})?)$'
+					required
+				/>
+
+				<button
+					type='submit'
+					className='w-full text-center py-3 rounded border-cyan-500 border  text-white focus:outline-none my-1'
+				>
+					Create Account
+				</button>
+			</form>
+
+			<div className='text-grey-dark mt-6'>
+				Already have an account?
+				<Link
+					className='no-underline border-b border-blue text-blue'
+					href='/login'
+				>
+					Log in
+				</Link>
+				.
 			</div>
 		</div>
 	)

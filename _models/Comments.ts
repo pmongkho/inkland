@@ -1,9 +1,9 @@
-import { Document, Model, model, models, ObjectId, Schema } from 'mongoose'
+import { Document, Model, model, models, Schema } from 'mongoose'
 import { JobDocument } from './Job'
 import { UserDocument } from './User'
 
 export interface CommentDocument extends Document {
-	author: UserDocument['username'],
+	author: UserDocument,
 	job: JobDocument['_id']
 	content: string
 	mentions: [UserDocument['_id']]
@@ -11,10 +11,10 @@ export interface CommentDocument extends Document {
 }
 
 const commentSchema = new Schema<CommentDocument>({
-	author: { type: String, required: true },
+	author: { type: Schema.Types.ObjectId, required: true },
 	job: { type: Schema.Types.ObjectId, required: true },
 	content: { type: String, required: true },
-	mentions: { type: [Schema.Types.ObjectId], default: []},
+	mentions: { type: [Schema.Types.ObjectId], default: [] },
 	createdAt: { type: Date, default: new Date() },
 })
 

@@ -1,10 +1,9 @@
 'use client'
-import React, { useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
+import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import Image from 'next/image'
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 
 export default function SwiperPics({ photos }: any) {
@@ -24,7 +23,7 @@ export default function SwiperPics({ photos }: any) {
 							alt='reference pic'
 							width={50}
 							height={50}
-							className='h-full w-full'
+							className='h-full w-full -z-10'
 						/>
 					</SwiperSlide>
 				))}

@@ -1,6 +1,6 @@
 import startDb from '@/_lib/db'
 import Comment from '@/_models/Comments'
-import Job from '@/_models/Job'
+import Job, { JobDocument } from '@/_models/Job'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
@@ -21,10 +21,12 @@ export const POST = async (req: Request) => {
 	}
 }
 
-export const getPostComments = async (req: any) => {
-	const job = await Job.findById(req)
+export const getComments = async (request:Request) => {
+	const job = await Job.findById(request)
 	const commentArray = job?.comments
 	const comments = await Comment.find({ _id: { $in: commentArray } })
-    console.log('getcomment',comments)
+		.populate('author')
+		.exec()
+
 	return comments
 }

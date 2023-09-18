@@ -1,9 +1,10 @@
 import { getUserById } from '@/app/api/auth/users/route'
-import { getPostComments } from '@/app/api/comments/route'
 import moment from 'moment'
 import Avatar from './Avatar'
 import ReactionCard from './ReactionCard'
 import SwiperPics from './Swiper'
+import axios from 'axios'
+import { getComments } from '@/app/api/comments/route'
 
 //debug to make a client component!!!!!!!
 export async function JobCard({ data, author, user }: any) {
@@ -11,13 +12,15 @@ export async function JobCard({ data, author, user }: any) {
 		return <h1>No Data Found</h1>
 	}
 
+	const _user = await getUserById(user.id)
 	const _author = await getUserById(author)
 	const didUserLike = data.likes.includes(user?.id)
-	const comments = await getPostComments(data._id)
-	console.log('comments', comments)
+	const jobId = data._id
+	const comments = await getComments(data._id)
 
+	console.log(comments,"comments")
 	return (
-		<div className=' bg-slate-800 pt-2 my-4 shadow-lg'>
+		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl'>
 			{author.toString() === user?.id.toString() && (
 				<div className=' flex items-center justify-end'>
 					<button className=' p-2 rounded-full '>
@@ -113,9 +116,9 @@ export async function JobCard({ data, author, user }: any) {
 			</div>
 
 			<ReactionCard
-				data={data}
+				_data={data}
 				didUserLike={didUserLike}
-				user={user}
+				user={_user}
 				_author={_author}
 				comments={comments}
 			/>

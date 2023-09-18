@@ -7,7 +7,7 @@ export default function Avatar({user, size}:any) {
 			className={`relative flex justify-center items-center w-min-[${size} px]`}
 		>
 			<Image
-				className='relative rounded-full'
+				className='relative rounded-full z-0'
 				src={user?.image ? user?.image : user?.profile?.image}
 				alt='profile pic'
 				width={size}

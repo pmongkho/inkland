@@ -36,7 +36,7 @@
     ".next/_types/**/*.ts",
     "_types/custom.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "app/api/jobs/[id]"  ],
   "exclude": [
     "node_modules"
   ]
