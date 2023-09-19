@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function MessengerCard() {
 	return (
-		<div className='p-2 flex items-center justify-between w-screen mb-2 hover:bg-slate-100 '>
+		<div className='p-2 flex items-center justify-between w-screen mb-2 hover:bg-slate-600 '>
 			<div className='relative w-full'>
 				<Image
 					width={200}

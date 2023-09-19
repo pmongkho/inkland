@@ -6,13 +6,12 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import tattooStyles from '../../_lib/tattooStyles.json'
+import tattooStyles from '../../_lib/data/tattooStyles.json'
 import { OurFileRouter } from '../api/uploadthing/core'
 
 export default function JobForm() {
 	const { data: session } = useSession()
 	const user = session?.user
-	console.log(user)
 	const router = useRouter()
 	const [uploadFiles, setUploadFiles] = useState<
 		| {
@@ -65,15 +64,17 @@ export default function JobForm() {
 
 				{user?.role === 'ARTIST' && (
 					<div className='my-4'>
-						<big className='block'>Since you&apos;re an artist choose.</big>
+						<big className='block'>Since you&apos;re an artist, choose.</big>
+						
 						<div className='flex justify-evenly'>
 							<button className='btn mx-2' onClick={() => setRole('CLIENT')}>
-								as client?
+								Client Form
 							</button>
 							<button className='btn mx-2' onClick={() => setRole('ARTIST')}>
-								as artist?
+								Artist Form
 							</button>
 						</div>
+
 					</div>
 				)}
 
@@ -88,8 +89,6 @@ export default function JobForm() {
 						placeholder='Subject Matter (What is the tattoo of?)'
 						required
 					/>
-
-					{/* <input type='text' name='style' placeholder='Style' list='styles'required /> */}
 
 					<select
 						name='style'
@@ -132,7 +131,6 @@ export default function JobForm() {
 						onClientUploadComplete={(res) => {
 							// Do something with the response
 							setUploadFiles(res)
-							alert('Upload Completed')
 						}}
 						onUploadError={(error: Error) => {
 							// Do something with the error.
@@ -147,8 +145,14 @@ export default function JobForm() {
 								name='price'
 								datatype='currency'
 								placeholder='Price $$$'
+								className=' bg-slate-800 text-white border border-slate-600  outline-none'
 							/>
-							<input type='text' name='duration' placeholder='Duration' />
+							<input
+								type='text'
+								name='duration'
+								className=' bg-slate-800 text-white border border-slate-600  outline-none'
+								placeholder='Duration'
+							/>
 						</>
 					)}
 					<textarea
@@ -157,10 +161,7 @@ export default function JobForm() {
 						placeholder="Add'l. Comments?"
 					/>
 
-					<button
-						type='submit'
-						className=' text-white  border border-cyan-500'
-					>
+					<button type='submit' className=' text-white  border border-cyan-500'>
 						Submit
 					</button>
 				</form>

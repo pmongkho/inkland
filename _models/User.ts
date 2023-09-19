@@ -30,7 +30,7 @@ export interface UserDocument extends Document {
 		{
 			user: UserDocument['_id']
 			post: JobDocument['_id']
-		}
+		},
 	] //user and other user
 	completed: [TransactionDocument['_id']] //Ref to Transaction involving user
 }
@@ -64,19 +64,23 @@ const userSchema = new Schema<UserDocument>({
 			default: 'Please fill out your bio',
 		},
 	},
-	jobs: { type: [Schema.Types.ObjectId], default: [] },
-	followers: { type: [Schema.Types.ObjectId], default: [] },
-	following: { type: [Schema.Types.ObjectId], default: [] },
-	publicChats: { type: [Schema.Types.ObjectId], default: [] },
-	buyerSellerChats: { type: [Schema.Types.ObjectId], default: [] },
-	saved: { type: [Schema.Types.ObjectId], default: [] },
+	jobs: [{ type: Schema.Types.ObjectId, default: [], ref: 'Job' }],
+	followers: [{ type: Schema.Types.ObjectId, default: [], ref: 'User' }],
+	following: [{ type: Schema.Types.ObjectId, default: [], ref: 'User' }],
+	publicChats: [
+		{ type: Schema.Types.ObjectId, default: [], ref: 'PublicChat' },
+	],
+	buyerSellerChats: [
+		{ type: Schema.Types.ObjectId, default: [], ref: 'BuyerSellerChat' },
+	],
+	saved: [{ type: Schema.Types.ObjectId, default: [], ref: 'Job' }],
 	tagged: [
 		{
-			user: { type: Schema.Types.ObjectId, required: true },
-			post: { type: Schema.Types.ObjectId, required: true },
+			user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+			post: { type: Schema.Types.ObjectId, required: true, ref: 'Job' },
 		},
 	],
-	completed: { type: [Schema.Types.ObjectId], default: [] },
+	completed: [{ type: Schema.Types.ObjectId, default: [], ref:'Job' }],
 })
 
 const User = models?.User || model('User', userSchema)

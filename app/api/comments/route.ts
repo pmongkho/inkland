@@ -1,6 +1,9 @@
+'use server'
+
 import startDb from '@/_lib/db'
 import Comment from '@/_models/Comments'
-import Job, { JobDocument } from '@/_models/Job'
+import Job from '@/_models/Job'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
@@ -15,18 +18,22 @@ export const POST = async (req: Request) => {
 		const update = { comments: comment._id }
 		await Job.findOneAndUpdate(query, { $push: update })
 
+		revalidateTag('comments')
+
 		return NextResponse.json(comment)
 	} catch (e) {
 		console.error(e)
 	}
 }
 
-export const getComments = async (request:Request) => {
-	const job = await Job.findById(request)
+export const GET = async (req: Request) => {
+	await startDb()
+	console.log(req.url, 'requrlll')
+	const job = await Job.findById(req)
 	const commentArray = job?.comments
 	const comments = await Comment.find({ _id: { $in: commentArray } })
 		.populate('author')
 		.exec()
 
-	return comments
+	return NextResponse.json(comments)
 }

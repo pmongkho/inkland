@@ -12,9 +12,9 @@ const nextConfig = {
 			'cdn-hbeej.nitrocdn.com',
 			'uploadthing.com',
 			'lh3.googleusercontent.com',
+			'utfs.io',
 		],
 	},
-
 }
 
 module.exports = nextConfig

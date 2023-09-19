@@ -1,12 +1,12 @@
 import Job from '@/_models/Job'
 import UserModel from '@/_models/User'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
 	const body = await req.json()
 	try {
         const job = await Job.findById(body.jobId)
-        console.log(job)
 		if (job?.likes.includes(body.sessionUserId)) {
 			await Promise.all([
 				UserModel.findOneAndUpdate(
@@ -30,10 +30,9 @@ export const POST = async (req: Request) => {
 				),
 			])
 		}
-
+		revalidateTag('jobs')
 		return NextResponse.json({ status: 201 })
 	} catch (error) {
-		console.log(error)
 		throw error
 	}
 }

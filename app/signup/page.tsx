@@ -56,7 +56,6 @@ export default function Signup() {
 				method: 'POST',
 				body: JSON.stringify(userInfo),
 			}).then((res) => res.json())
-			console.log(res)
 			router.replace('/login')
 		} catch (error) {
 			throw error

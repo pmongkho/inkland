@@ -3,22 +3,23 @@ import moment from 'moment'
 import Avatar from './Avatar'
 import ReactionCard from './ReactionCard'
 import SwiperPics from './Swiper'
-import axios from 'axios'
-import { getComments } from '@/app/api/comments/route'
 
 //debug to make a client component!!!!!!!
 export async function JobCard({ data, author, user }: any) {
 	if (!data) {
 		return <h1>No Data Found</h1>
 	}
-
 	const _user = await getUserById(user.id)
 	const _author = await getUserById(author)
 	const didUserLike = data.likes.includes(user?.id)
-	const jobId = data._id
-	const comments = await getComments(data._id)
-
-	console.log(comments,"comments")
+	const comments = await fetch(`${process.env.URL}/api/comments/${data._id}`, {
+		cache:'no-cache',
+		next: {
+			tags: ['comments']
+		}
+	}).then((res) => 
+		res.json()
+	)
 	return (
 		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl'>
 			{author.toString() === user?.id.toString() && (
@@ -116,7 +117,7 @@ export async function JobCard({ data, author, user }: any) {
 			</div>
 
 			<ReactionCard
-				_data={data}
+				data={data}
 				didUserLike={didUserLike}
 				user={_user}
 				_author={_author}

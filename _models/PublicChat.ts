@@ -12,12 +12,14 @@ export interface PublicChatDocument extends Document {
 }
 
 const publicChatSchema = new Schema<PublicChatDocument>({
-    participants: { type: [Schema.Types.ObjectId], required: true },
-    messages: [{
-            sender: { type: Schema.Types.ObjectId, required: true },
-            content: { type: String, required: true },
-            createdAt: { type: Date, default: new Date() }    
-    }]
+	participants: [{ type: Schema.Types.ObjectId, required: true, ref: 'User' }],
+	messages: [
+		{
+			sender: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+			content: { type: String, required: true },
+			createdAt: { type: Date, default: new Date() },
+		},
+	],
 })
 
 const PublicChat = models?.PublicChat || model('PublicChat', publicChatSchema)
