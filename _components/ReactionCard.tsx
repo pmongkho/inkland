@@ -20,7 +20,6 @@ export default function ReactionCard({
 	const showCommentForm = () => {
 		setExpandComment(!expandComment)
 	}
-	// console.log(moment(Date.now()).fromNow(),"time")
 
 	const submitComment = async (form: FormData) => {
 
@@ -45,7 +44,7 @@ export default function ReactionCard({
 					//job post id
 					jobId={data?._id}
 					//current userid
-					sessionUserId={user?._id}
+					sessionUserId={user?.id}
 					//boolean if user liked the job
 					didUserLike={didUserLike}
 					likeCount={data?.likes.length}

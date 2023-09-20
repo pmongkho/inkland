@@ -30,7 +30,7 @@ export default function LikeButton({
 		}
 
 		try {
-			const res = await fetch('/api/like', {
+			await fetch('/api/like', {
 				method: 'POST',
 				body: JSON.stringify(likeBody),
 			}).then((res) => {

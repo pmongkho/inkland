@@ -12,15 +12,15 @@ export default async function SignIn() {
 	}
 
 	return (
-		<div className=' flex items-start'>
-			<div>
+
+			<div className='-mt-14'>
 				<Hero />
-				<div className='flex items-center justify-center pt-20'>
-					<div className='bg-white shadow rounded-lg '>
+				<div className='flex items-center justify-center'>
+					<div className='bg-white shadow rounded-lg mt-8'>
 						<GoogleButton />
 					</div>
 				</div>
 			</div>
-		</div>
+
 	)
 }
