@@ -1,12 +1,13 @@
 import startDb from '@/_lib/db'
 import Job from '@/_models/Job'
 import User from '@/_models/User'
+import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
+import { cache } from 'react'
 
 export const POST = async (req: Request): Promise<NextResponse> => {
 	await startDb()
 	const body = await req.json()
-	
 
 	const oldUser = await User.findOne({ username: body.username })
 	if (oldUser)
@@ -16,84 +17,70 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 		)
 	const user = await User.create({ ...body })
 
-	return NextResponse.json(
-		user
-	)
+	return NextResponse.json(user)
 }
 
-export async function getUserById(id: Request){
+export const GET = async (req: Request) => {
 	try {
-		await startDb()		
+		const users = await User.find()
+		return NextResponse.json(users)
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export async function getUserById(id: Request) {
+	try {
+		await startDb()
 		const user = await User.findById(id)
 		return user
-		 
 	} catch (error) {
 		throw error
 	}
 }
-export async function getSavedByUser(id: Request){
+export async function getSavedByUser(id: Request) {
 	try {
-		await startDb()		
+		await startDb()
 		const user = await User.findById(id)
 		const jobsArray = user?.saved
 		const jobs = await Job.find({
-			'_id': {
-			$in: jobsArray
-			}
+			_id: {
+				$in: jobsArray,
+			},
 		})
 		return jobs
-		 
 	} catch (error) {
 		throw error
 	}
 }
-export async function getUserPosts(id: Request){
+
+export async function getUserTagged(id: Request) {
 	try {
-		await startDb()		
-		const user = await User.findById(id)
-		const jobsArray = user?.jobs
-		const jobs = await Job.find({
-			'_id': {
-			$in: jobsArray
-			}
-		})
-		return jobs
-		 
-	} catch (error) {
-		throw error
-	}
-}
-export async function getUserTagged(id: Request){
-	try {
-		await startDb()		
+		await startDb()
 		const user = await User.findById(id)
 		const jobsArray = user?.tagged
 		const jobs = await Job.find({
-			'_id': {
-			$in: jobsArray
-			}
+			_id: {
+				$in: jobsArray,
+			},
 		})
 		return jobs
-		 
 	} catch (error) {
 		throw error
 	}
 }
-export async function getCompletedByUser(id: Request){
+export async function getCompletedByUser(id: Request) {
 	try {
-		await startDb()		
+		await startDb()
 		const user = await User.findById(id)
 		const jobsArray = user?.completed
 		const jobs = await Job.find({
-			'_id': {
-			$in: jobsArray
-			}
+			_id: {
+				$in: jobsArray,
+			},
 		})
 		return jobs
-		 
 	} catch (error) {
 		throw error
 	}
 }
-
-

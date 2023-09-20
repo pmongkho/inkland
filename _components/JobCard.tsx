@@ -9,9 +9,8 @@ export async function JobCard({ data, author, user }: any) {
 	if (!data) {
 		return <h1>No Data Found</h1>
 	}
-	const _user = await getUserById(user.id)
 	const _author = await getUserById(author)
-	const didUserLike = data.likes.includes(user?.id)
+	const didUserLike = data.likes.includes(user?.id.toString())
 	const comments = await fetch(`${process.env.URL}/api/comments/${data._id}`, {
 		cache:'no-cache',
 		next: {
@@ -57,6 +56,10 @@ export async function JobCard({ data, author, user }: any) {
 					<small>{_author?.profile.zipcode} </small>
 				</div>
 			</div>
+			<div className=' pl-2 py-4'>
+				
+				{data?.tattoo.addlInfo}
+			</div>
 
 			<div
 				className='relative
@@ -91,13 +94,6 @@ export async function JobCard({ data, author, user }: any) {
 								</b>
 								<small>{data?.tattoo.placement}</small>
 							</div>
-
-							<div>
-								<b>
-									<small>Addt Comments: </small>
-								</b>
-								<small> {data?.tattoo.addlInfo}</small>
-							</div>
 						</div>
 						{_author?.role === 'ARTIST' && (
 							<div className='flex items-start'>
@@ -119,8 +115,8 @@ export async function JobCard({ data, author, user }: any) {
 			<ReactionCard
 				data={data}
 				didUserLike={didUserLike}
-				user={_user}
-				_author={_author}
+				user={user}
+				_author={_author?.role}
 				comments={comments}
 			/>
 		</div>

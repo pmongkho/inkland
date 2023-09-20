@@ -9,12 +9,14 @@ import { authOptions } from './api/auth/[...nextauth]/options'
 export default async function Home() {
 	const session = await getServerSession(authOptions)
 	const user = session?.user
+
 	if (session?.user.role === undefined && session?.user) {
 		redirect('/signup')
 	}
+
 	return (
-		<div className='pt-4 flex items-start justify-center relative'>
-			<div className=''>
+		<div className='pt-4 flex items-end justify-center max-h-screen'>
+			<div className=' px-2'>
 				<div className=' w-full mb-4'>
 					<div className='   flex items-center justify-between p-2 '>
 						<Link href='/profile/content/saved'>
@@ -28,20 +30,17 @@ export default async function Home() {
 						</div>
 					</div>
 				</div>
+				<div className=' text-center'>
+					<big className='block text-4xl text-left px-4 pt-20 pb-8 '>
+						We help artists find clients and clients find artists.
+					</big>
 
-				<big className='block text-4xl py-4 '>
-					We help artists find clients and clients find artists.
-				</big>
-				<Image
-					className='block relative'
-					src={image}
-					alt='artist client picture'
-				/>
-				<Link href={`${user?.role === 'ARTIST' ? '/job-page' : 'job-form'}`}>
-					<button className=' absolute top-[50vh] right-[50%] bg-slate-800 text-white text-2xl px-4 py-2 rounded-md shadow-lg'>
-						Start Now
-					</button>
-				</Link>
+					<Link href={`${user?.role === 'ARTIST' ? '/job-page' : 'job-form'}`}>
+						<button className='shadow-xl border border-cyan-500 bg-slate-800 text-white text-2xl px-4 py-2 rounded-md'>
+							Start Now
+						</button>
+					</Link>
+				</div>
 			</div>
 		</div>
 	)

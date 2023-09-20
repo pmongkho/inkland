@@ -23,7 +23,7 @@ export default async function RootLayout({
 					className={`${inter.className} bg-slate-800 relative text-white `}
 				>
 					<Header />
-					<main className=' pt-14'>{children}</main>
+					<main className=' min-h-screen pt-14'>{children}</main>
 				</body>{' '}
 			</Provider>
 		</html>

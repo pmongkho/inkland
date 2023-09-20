@@ -7,7 +7,7 @@ export interface CommentDocument extends Document {
 	job: JobDocument['_id']
 	content: string
 	mentions: [UserDocument['_id']]
-	createdAt: Date
+	createdAt: String
 }
 
 const commentSchema = new Schema<CommentDocument>({
@@ -15,7 +15,7 @@ const commentSchema = new Schema<CommentDocument>({
 	job: { type: Schema.Types.ObjectId, required: true, ref:'Job' },
 	content: { type: String, required: true },
 	mentions: [{ type: Schema.Types.ObjectId, default: [], ref:'User' }],
-	createdAt: { type: Date, default: new Date() },
+	createdAt: { type: String, default: Date.now() },
 })
 
 const Comment = models?.Comment || model('Comment', commentSchema)

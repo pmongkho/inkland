@@ -1,10 +1,12 @@
 'use client'
 
-import Comment from '@/_models/Comments'
+import Comment, { CommentDocument } from '@/_models/Comments'
 import axios from 'axios'
 import moment from 'moment'
 import { useRef, useState } from 'react'
 import LikeButton from './LikeButton'
+import { revalidateTag } from 'next/cache'
+import { postComment } from '@/_serverActions/postComment'
 
 export default function ReactionCard({
 	data,
@@ -18,19 +20,21 @@ export default function ReactionCard({
 	const showCommentForm = () => {
 		setExpandComment(!expandComment)
 	}
+	// console.log(moment(Date.now()).fromNow(),"time")
 
 	const submitComment = async (form: FormData) => {
-		const author = user
+
+		const author = user.id
 		const job = data._id
 		const content = form.get('comment')?.toString() as string
 		// const mentions = content?.match('(@\w*')
 
-		const comment = new Comment({
+		const comment= {
 			author,
 			job,
 			content,
-		})
-		await axios.post('/api/comments', JSON.stringify(comment))
+		}
+		postComment(comment)
 	}
 
 	return (
@@ -67,9 +71,7 @@ export default function ReactionCard({
 							/>
 						</svg>
 						<div className=' text-white'>
-							{user?.role === 'ARTIST' && _author?.role === 'CLIENT'
-								? 'Do'
-								: 'Get'}{' '}
+							{user?.role === 'ARTIST' && _author === 'CLIENT' ? 'Do' : 'Get'}{' '}
 							This Tattoo
 						</div>
 					</div>
@@ -78,17 +80,20 @@ export default function ReactionCard({
 			<div className={`${expandComment ? 'visible' : 'hidden'}`}>
 				<div className=' overflow-y-scroll h-28'>
 					{comments?.map((item: any) => (
-						<div className='flex items-center justify-between'>
-							<small>{item.author}</small>
-							<small>{item.content}</small>
-							<small>{moment(moment(item.createdAt).format()).fromNow()}</small>
+						<div className='flex items-center justify-between [&>*]:text-left'>
+							<small>{item.author.username}</small>
+							<small >{item.content}</small>
+							<small>{moment(item.createdAt).fromNow()}</small>
 						</div>
 					))}
 				</div>
-				<form ref={ ref } action={ async (FormData) => {
-					await submitComment(FormData)
-					ref.current?.reset()
-				} }>
+				<form
+					ref={ref}
+					action={async (FormData) => {
+						await submitComment(FormData)
+						ref.current?.reset()
+					}}
+				>
 					<textarea
 						className='w-full p-2 bg-slate-800 text-white border border-slate-600 rounded focus:outline-none'
 						placeholder='say something..'

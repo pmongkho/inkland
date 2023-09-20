@@ -1,28 +1,34 @@
-import Image from 'next/image';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import { PublicChatDocument } from '@/_models/PublicChat'
+import User from '@/_models/User'
+import axios from 'axios'
+import { getServerSession } from 'next-auth'
+import Avatar from './Avatar'
+import moment from 'moment'
 
-export default function MessengerCard() {
+
+export default async function MessengerCard({ user, chat }: any) {
+	const participant = chat.participants.filter((p: any) => p != user.id)
+	const _user = await fetch(`/api/auth/users/${participant}`)
+		.then((res) => res.json())
+		.catch((err) => console.error(err))
+
 	return (
-		<div className='p-2 flex items-center justify-between w-screen mb-2 hover:bg-slate-600 '>
-			<div className='relative w-full'>
-				<Image
-					width={200}
-					height={200}
-					className='rounded-full '
-					src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80'
-					alt='profile pic'
-				/>
-				<span className='top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full'></span>
+		<div className='w-full p-2 flex items-center justify-between mb-2 hover:bg-slate-600 space-x-4 '>
+			<div className=''>
+				<Avatar user={_user} size={60} />
 			</div>
 
-			<div className='[&>*]:block flex flex-wrap justify-start  w-max-[50vw] px-4'>
-				<big>Jane Doe</big>
-				<small className='text-left h-10 line-clamp-2'>
-					Lorem, ipsum dolor sit amet consec adipisicing elit. Eius harum a rem
-					error nemo odit voluptatum maxime fugit nesciunt repudiandae eos
-					obcaecati, omnis sequi ea earum consequatur eveniet fuga voluptatem?
+			<div className=''>
+				<big>{_user.username}</big>
+				<small className=' line-clamp-2'>
+					{chat.messages[chat.messages.length - 1].content}
 				</small>
 			</div>
-			<small className=' w-full'>11:11 PM</small>
+
+			<small className='block'>
+				{moment(chat.messages[chat.messages.length - 1].createdAt).fromNow()}
+			</small>
 		</div>
 	)
 }

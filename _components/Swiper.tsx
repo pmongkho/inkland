@@ -19,6 +19,7 @@ export default function SwiperPics({ photos }: any) {
 				{photos.map((item: any) => (
 					<SwiperSlide>
 						<Image
+							key={item.fileKey as string}
 							src={item.fileUrl as string}
 							alt='reference pic'
 							width={50}

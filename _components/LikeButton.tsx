@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { revalidateTag } from 'next/cache'
+
 
 export default function LikeButton({
 	jobId,
@@ -10,12 +12,12 @@ export default function LikeButton({
 }: any) {
 	const [like, setLike] = useState<{ liked: boolean; likeCount: number }>({
 		liked: didUserLike,
-		likeCount: likeCount? likeCount : 0,
+		likeCount: likeCount ? likeCount : 0,
 	})
 	useEffect(() => {}, [like])
 
 	const handleLike = async () => {
-		
+
 		if (like.liked === true) {
 			setLike({ liked: false, likeCount: like.likeCount - 1 })
 		} else {
@@ -24,15 +26,17 @@ export default function LikeButton({
 
 		const likeBody = {
 			sessionUserId,
-			jobId
+			jobId,
 		}
 
-		try{
-	const res = await fetch('/api/like', {
+		try {
+			const res = await fetch('/api/like', {
 				method: 'POST',
 				body: JSON.stringify(likeBody),
-			}).then((response) => console.log(response))
-
+			}).then((res) => {
+				res.json()
+				revalidateTag('jobs')
+			})
 		} catch (error) {
 			throw error
 		}
@@ -40,7 +44,7 @@ export default function LikeButton({
 
 	return (
 		<div className=' [&>*]:block flex items-center justify-center'>
-			<button onClick={handleLike} >
+			<button onClick={handleLike}>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					fill={`${like.liked ? 'purple' : 'none'}`}
@@ -58,7 +62,11 @@ export default function LikeButton({
 					/>
 				</svg>
 			</button>
-			<span className={`${like.likeCount>0?' text-white': ' text-slate-4000'}`}>{like.likeCount}</span>
+			<span
+				className={`${like.likeCount > 0 ? ' text-white' : ' text-slate-4000'}`}
+			>
+				{like.likeCount}
+			</span>
 		</div>
 	)
 }

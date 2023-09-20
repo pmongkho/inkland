@@ -8,7 +8,6 @@ export interface PublicChatDocument extends Document {
         content: String,
         createdAt: Date
     }]
-
 }
 
 const publicChatSchema = new Schema<PublicChatDocument>({
@@ -17,7 +16,7 @@ const publicChatSchema = new Schema<PublicChatDocument>({
 		{
 			sender: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
 			content: { type: String, required: true },
-			createdAt: { type: Date, default: new Date() },
+			createdAt: { type: Date, default: Date.now() },
 		},
 	],
 })

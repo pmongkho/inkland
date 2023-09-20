@@ -15,7 +15,5 @@ module.exports = {
 		},
 	},
 	plugins: [],
-	experimental: {
-		serverActions: true,
-	},
+
 }

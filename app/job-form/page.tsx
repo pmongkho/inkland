@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import tattooStyles from '../../_lib/data/tattooStyles.json'
 import { OurFileRouter } from '../api/uploadthing/core'
+import { revalidateTag } from 'next/cache'
 
 export default function JobForm() {
 	const { data: session } = useSession()
@@ -46,18 +47,22 @@ export default function JobForm() {
 				},
 			}
 
-			const res = await fetch('/api/jobs', {
+			await fetch('/api/jobs', {
 				method: 'POST',
 				body: JSON.stringify(job),
-			}).then((response) => console.log(response))
-			router.replace('/')
+			}).then((res) => {
+				res.json()
+				revalidateTag('jobs')
+			})
+
+			router.replace('profile/content/my-stuff')
 		} catch (error) {
 			throw error
 		}
 	}
 
 	return (
-		<div className='pt-8 pb-20 flex text-center justify-center'>
+		<div className='pt-8 pb-20 flex text-center items-center justify-center'>
 			<div className=''>
 				<h1 className='  text-3xl'>Tattoo Consultation Form</h1>
 				<small>help us understand what tatoo you want.</small>
@@ -65,16 +70,25 @@ export default function JobForm() {
 				{user?.role === 'ARTIST' && (
 					<div className='my-4'>
 						<big className='block'>Since you&apos;re an artist, choose.</big>
-						
-						<div className='flex justify-evenly'>
-							<button className='btn mx-2' onClick={() => setRole('CLIENT')}>
+
+						<div className='flex justify-evenly space-x-2'>
+							<button
+								className={` w-full mt-2 py-2 border rounded ${
+									role === 'CLIENT' ? ' border-cyan-500' : ' border-slate-700'
+								}`}
+								onClick={() => setRole('CLIENT')}
+							>
 								Client Form
 							</button>
-							<button className='btn mx-2' onClick={() => setRole('ARTIST')}>
+							<button
+								className={` w-full  mt-2 py-2 border rounded ${
+									role === 'ARTIST' ? ' border-cyan-500' : ' border-slate-700'
+								}`}
+								onClick={() => setRole('ARTIST')}
+							>
 								Artist Form
 							</button>
 						</div>
-
 					</div>
 				)}
 
@@ -82,6 +96,30 @@ export default function JobForm() {
 					className='[&>*]:my-2 [&>*]:block [&>*]:w-full [&>*]:p-2 [&>*]:rounded'
 					action={addJob}
 				>
+					<div className=' flex items-center justify-evenly '>
+						{uploadFiles?.map((file) => (
+							<Image
+								key={file.fileKey}
+								src={file.fileUrl}
+								alt='ref photo'
+								width={100}
+								height={100}
+								className=' inline mx-2'
+							/>
+						))}
+					</div>
+
+					<UploadButton<OurFileRouter>
+						endpoint='imageUploader'
+						onClientUploadComplete={(res) => {
+							// Do something with the response
+							setUploadFiles(res)
+						}}
+						onUploadError={(error: Error) => {
+							// Do something with the error.
+							alert(`ERROR! ${error.message}`)
+						}}
+					/>
 					<input
 						type='text'
 						name='subjectMatter'
@@ -111,33 +149,6 @@ export default function JobForm() {
 						required
 					/>
 
-					<p>Reference Photos</p>
-
-					<div className=' flex items-center justify-evenly '>
-						{uploadFiles?.map((file) => (
-							<Image
-								key={file.fileKey}
-								src={file.fileUrl}
-								alt='ref photo'
-								width={100}
-								height={100}
-								className=' inline mx-2'
-							/>
-						))}
-					</div>
-
-					<UploadButton<OurFileRouter>
-						endpoint='imageUploader'
-						onClientUploadComplete={(res) => {
-							// Do something with the response
-							setUploadFiles(res)
-						}}
-						onUploadError={(error: Error) => {
-							// Do something with the error.
-							alert(`ERROR! ${error.message}`)
-						}}
-					/>
-
 					{role === 'ARTIST' && (
 						<>
 							<input
@@ -158,7 +169,7 @@ export default function JobForm() {
 					<textarea
 						name='addlInfo'
 						className=' bg-slate-800 text-white border border-slate-600  outline-none'
-						placeholder="Add'l. Comments?"
+						placeholder='What do you want the job to say?'
 					/>
 
 					<button type='submit' className=' text-white  border border-cyan-500'>

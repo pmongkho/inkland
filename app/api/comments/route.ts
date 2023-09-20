@@ -1,39 +1,35 @@
 'use server'
 
 import startDb from '@/_lib/db'
-import Comment from '@/_models/Comments'
+import Comment, { CommentDocument } from '@/_models/Comments'
 import Job from '@/_models/Job'
-import { revalidateTag } from 'next/cache'
-import { NextResponse } from 'next/server'
 
-export const POST = async (req: Request) => {
+
+import { revalidateTag } from 'next/cache'
+import { NextRequest, NextResponse } from 'next/server'
+
+export const POST = async (req: NextRequest) => {
 	await startDb()
 	const body = await req.json()
-	try {
+	
 		const comment = await Comment.create({
 			...body,
 		})
 
 		const query = { _id: body.job }
 		const update = { comments: comment._id }
-		await Job.findOneAndUpdate(query, { $push: update })
-
+		const job = await Job.findOneAndUpdate(query, { $push: update })
+		
 		revalidateTag('comments')
+		return new Response(JSON.stringify(comment))
 
-		return NextResponse.json(comment)
-	} catch (e) {
-		console.error(e)
-	}
 }
 
 export const GET = async (req: Request) => {
 	await startDb()
-	console.log(req.url, 'requrlll')
 	const job = await Job.findById(req)
 	const commentArray = job?.comments
 	const comments = await Comment.find({ _id: { $in: commentArray } })
-		.populate('author')
-		.exec()
 
 	return NextResponse.json(comments)
 }

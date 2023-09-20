@@ -13,6 +13,7 @@ export const POST = async (req: Request) => {
 			{ $push: { jobs: job._id } }
 		)
 			revalidateTag('jobs')
+			revalidateTag('my-stuff')
 		return NextResponse.json({ job: job }, { status: 201 })
 	} catch (error) {
 		throw error

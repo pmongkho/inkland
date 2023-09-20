@@ -1,7 +1,6 @@
 'use client'
 
 import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -78,7 +77,7 @@ export default function Hamburger() {
 				<div
 					className='py-2'
 					onClick={() => {
-						signOut(), router.replace('/login')
+						signOut(), router.replace('/')
 					}}
 				>
 					<a

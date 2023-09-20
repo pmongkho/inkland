@@ -12,12 +12,14 @@ export default async function SignIn() {
 	}
 
 	return (
-		<div className='h-screen'>
+		<div className=' flex items-start'>
+			<div>
 				<Hero />
-		<div className='flex items-center justify-center h-[40vh]'>
-					<div className='bg-white shadow rounded-lg divide-y divide-gray-200 '>
+				<div className='flex items-center justify-center pt-20'>
+					<div className='bg-white shadow rounded-lg '>
 						<GoogleButton />
 					</div>
+				</div>
 			</div>
 		</div>
 	)

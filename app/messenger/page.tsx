@@ -1,18 +1,25 @@
-import MessageList from '@/_components/MessengerView'
-import React from 'react'
+import { authOptions } from '@/app/api/auth/[...nextauth]/options'
+import MessengerSearchBar from '@/_components/MessengerSearchBar'
+import { getServerSession } from 'next-auth'
 
-export default function Messenger() {
+export default async function Messenger() {
+	const session = await getServerSession(authOptions)
+	const user = session?.user
+
+	const users = await fetch(`${process.env.URL}/api/auth/users`)
+		.then((res) => res.json())
+		.catch((err) => console.error(err))
+
+	const chats = await fetch(
+		`${process.env.URL}/api/auth/users/public-chats/${user?.id}`
+	)
+		.then((res) => res.json())
+		.catch((err) => console.error(err))
+
 	return (
-		<div className='[&>*]:block [&>*]:w-full  text-center'>
-			<div className=' z-0 bg-slate-800 border-slate-700 border-b [&>*]:mb-2 text-white [&>*]:w-full px-2 py-4 mt-2'>
-				{/* <h1 className='text-3xl pb-4'>Chats</h1> */}
-				<input
-					className=' bg-slate-800 text-white border border-slate-700  outline-none py-2 rounded pl-2'
-					type='search'
-					placeholder='Search Messages'
-				/>
-			</div>
-			<MessageList />
-		</div>
+		<>
+			{' '}
+			<MessengerSearchBar user={user} users={users} chats={chats} />
+		</>
 	)
 }
