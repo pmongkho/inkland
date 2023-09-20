@@ -17,6 +17,11 @@ export async function GET(
 				$in: publicChatsArray,
 			},
 		})
+			.populate({
+				path: 'messages',
+				populate: { path: 'sender' },
+			})
+			.exec()
 
 		return NextResponse.json(chats)
 	} catch (error) {

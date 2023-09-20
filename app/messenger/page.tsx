@@ -16,6 +16,8 @@ export default async function Messenger() {
 		.then((res) => res.json())
 		.catch((err) => console.error(err))
 
+	
+	console.log(chats[0].messages.sender,"abz")
 	return (
 		<>
 			{' '}

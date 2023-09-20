@@ -1,33 +1,31 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/options'
-import { PublicChatDocument } from '@/_models/PublicChat'
-import User from '@/_models/User'
-import axios from 'axios'
-import { getServerSession } from 'next-auth'
-import Avatar from './Avatar'
 import moment from 'moment'
+import Avatar from './Avatar'
 
 
 export default async function MessengerCard({ user, chat }: any) {
 	const participant = chat.participants.filter((p: any) => p != user.id)
-	const _user = await fetch(`/api/auth/users/${participant}`)
+	let _user = await fetch(`/api/auth/users/${participant.length?participant:user.id}`)
 		.then((res) => res.json())
 		.catch((err) => console.error(err))
+
+	const lastMessage = chat.messages[chat.messages.length - 1]
+	const lastMessageSender = lastMessage.sender
 
 	return (
 		<div className='w-full p-2 flex items-center justify-between mb-2 hover:bg-slate-600 space-x-4 '>
 			<div className=''>
-				<Avatar user={_user} size={60} />
+				<Avatar user={ _user } size={40} />
 			</div>
 
-			<div className=''>
-				<big>{_user.username}</big>
+			<div className=' flex-1'>
+				<p>{lastMessageSender.username===user.username?(<big>Me</big>):user.username}</p>
 				<small className=' line-clamp-2'>
-					{chat.messages[chat.messages.length - 1].content}
+					{lastMessage.content}
 				</small>
 			</div>
 
 			<small className='block'>
-				{moment(chat.messages[chat.messages.length - 1].createdAt).fromNow()}
+				{moment(lastMessage.createdAt).fromNow()}
 			</small>
 		</div>
 	)

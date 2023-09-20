@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import { revalidateTag } from 'next/cache'
 
-
 export default function LikeButton({
 	jobId,
 	sessionUserId,

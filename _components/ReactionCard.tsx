@@ -7,6 +7,7 @@ import { useRef, useState } from 'react'
 import LikeButton from './LikeButton'
 import { revalidateTag } from 'next/cache'
 import { postComment } from '@/_serverActions/postComment'
+import Avatar from './Avatar'
 
 export default function ReactionCard({
 	data,
@@ -51,7 +52,7 @@ export default function ReactionCard({
 				/>
 
 				<div onClick={showCommentForm} className={` text-white`}>
-					Comments
+					{comments.length} Comments 
 				</div>
 				<button>
 					<div className='flex items-center justify-center  p-2 rounded-md'>
@@ -70,18 +71,18 @@ export default function ReactionCard({
 							/>
 						</svg>
 						<div className=' text-white'>
-							{user?.role === 'ARTIST' && _author === 'CLIENT' ? 'Do' : 'Get'}{' '}
+							{user?.role === 'ARTIST' && _author.role === 'CLIENT' ? 'Do' : 'Get'}{' '}
 							This Tattoo
 						</div>
 					</div>
 				</button>
 			</div>
 			<div className={`${expandComment ? 'visible' : 'hidden'}`}>
-				<div className=' overflow-y-scroll h-28'>
+				<div className=' overflow-y-scroll h-28 px-2'>
 					{comments?.map((item: any) => (
-						<div className='flex items-center justify-between [&>*]:text-left'>
-							<small>{item.author.username}</small>
-							<small >{item.content}</small>
+						<div className='flex items-center justify-between [&>*]:text-left py-2'>
+							<Avatar user={_author} size={30} />
+							<small className='flex-1 ml-2'>{item.content}</small>
 							<small>{moment(item.createdAt).fromNow()}</small>
 						</div>
 					))}

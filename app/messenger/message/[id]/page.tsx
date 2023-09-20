@@ -4,8 +4,8 @@ import { ObjectId } from 'mongoose'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
 import moment from 'moment'
-
-
+import User from '@/_models/User'
+import { getUserById } from '@/app/api/auth/users/route'
 
 export default async function Message({
 	params,
@@ -33,7 +33,7 @@ export default async function Message({
 	const submitMessage = async (form: FormData) => {
 		'use server'
 		const content = form.get('content')?.toString()
-		const sender = sessUser?.id
+		const sender = sessUser?._id
 
 		const message = {
 			sender,
@@ -59,14 +59,19 @@ export default async function Message({
 				<Avatar user={receiver} size={60} />
 				<p>{receiver?.username}</p>
 			</div>
-			<div>
-				{chat?.messages.map((message: any) => (
-					<div key={message._id}>
-						<p>{message.sender}</p>
-						<p>{message.content}</p>
-						<p>{moment(message.createdAt).fromNow()}</p>
-					</div>
-				))}
+			<div className=' '>
+				{ chat?.messages.map( async(message: any) => {
+					const sender = await getUserById(message.sender)
+					return (
+						<div
+							key={message._id}
+							className=' flex justify-between items-center w-full py-2'
+						>
+							<Avatar user={sender} size={40} />
+							<p className='flex-1 pl-4'>{message.content}</p>
+							<p>{moment(message.createdAt).fromNow()}</p>
+						</div>
+					)})}
 			</div>
 			<form action={submitMessage}>
 				<div className='fixed bottom-8 flex items-center justify-between space-x-2 w-full pr-4'>

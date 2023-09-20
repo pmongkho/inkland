@@ -14,6 +14,8 @@ export async function middleware(req: NextRequest) {
 		'/job-form',
 		'/signup',
 		'/api',
+		'/messenger/**/*',
+		'/profile/**/*',
 	]
 	const isPathProtected = protectedPaths?.some((path) => pathname == path)
 	const res = NextResponse.next()

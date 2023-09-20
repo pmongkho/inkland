@@ -26,7 +26,7 @@ export default function MessengerSearchBar({ user, users, chats }: any) {
 					<input
 						placeholder='To Whom?'
 						type='search'
-						// onClick={() => setDropdownUsers(!dropdownUsers)}
+						onClick={() => setDropdownUsers(!dropdownUsers)}
 						onChange={(e) =>
 							e.target.value.length !== 0
 								? setDropdownUsers(true)

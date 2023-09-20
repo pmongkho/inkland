@@ -116,7 +116,7 @@ export async function JobCard({ data, author, user }: any) {
 				data={data}
 				didUserLike={didUserLike}
 				user={user}
-				_author={_author?.role}
+				_author={_author}
 				comments={comments}
 			/>
 		</div>
