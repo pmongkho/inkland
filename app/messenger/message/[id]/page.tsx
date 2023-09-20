@@ -68,7 +68,7 @@ export default async function Message({
 							className=' flex justify-between items-center w-full py-2'
 						>
 							<Avatar user={sender} size={40} />
-							<p className='flex-1 pl-4'>{message.content}</p>
+							<p className='flex-1 px-2'>{message.content}</p>
 							<p>{moment(message.createdAt).fromNow()}</p>
 						</div>
 					)})}

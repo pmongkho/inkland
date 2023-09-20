@@ -77,7 +77,7 @@ export default function Hamburger() {
 				<div
 					className='py-2'
 					onClick={() => {
-						signOut(), router.replace('/')
+						signOut(), router.push('/')
 					}}
 				>
 					<a

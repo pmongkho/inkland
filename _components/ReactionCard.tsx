@@ -81,8 +81,8 @@ export default function ReactionCard({
 				<div className=' overflow-y-scroll h-28 px-2'>
 					{comments?.map((item: any) => (
 						<div className='flex items-center justify-between [&>*]:text-left py-2'>
-							<Avatar user={_author} size={30} />
-							<small className='flex-1 ml-2'>{item.content}</small>
+							<Avatar user={item.author} size={30} />
+							<small className='flex-1 mx-2'>{item.content}</small>
 							<small>{moment(item.createdAt).fromNow()}</small>
 						</div>
 					))}
