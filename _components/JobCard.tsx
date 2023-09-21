@@ -9,7 +9,10 @@ export async function JobCard({ data, author, user }: any) {
 	if (!data) {
 		return <h1>No Data Found</h1>
 	}
-	const _author = await getUserById(author)
+	const _author = await fetch(`${process.env.URL}/api/auth/users/${author}`).then((res) => {
+		res.json()
+	}).catch((err) => console.log(err))
+	
 	const didUserLike = data.likes.includes(user?.id.toString())
 	const comments = await fetch(`${process.env.URL}/api/comments/${data._id}`, {
 		cache:'no-cache',

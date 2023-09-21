@@ -23,7 +23,6 @@ export default function ReactionCard({
 	}
 
 	const submitComment = async (form: FormData) => {
-
 		const author = user.id
 		const job = data._id
 		const content = form.get('comment')?.toString() as string
