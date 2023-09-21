@@ -1,11 +1,10 @@
+import { getUserById } from '@/app/api/auth/users/route'
 import { authOptions } from '@/app/api/auth/[...nextauth]/options'
 import Avatar from '@/_components/Avatar'
+import moment from 'moment'
 import { ObjectId } from 'mongoose'
 import { getServerSession } from 'next-auth'
 import { revalidateTag } from 'next/cache'
-import moment from 'moment'
-import User from '@/_models/User'
-import { getUserById } from '@/app/api/auth/users/route'
 
 export default async function Message({
 	params,
