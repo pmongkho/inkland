@@ -47,8 +47,8 @@ const jobSchema = new Schema<JobDocument>({
 	},
 	likes: [{ type: Schema.Types.ObjectId, default: [], ref: 'User' }],
 	comments: [{ type: Schema.Types.ObjectId, default: [], ref: 'Comment' }],
-	createdAt: { type: Date, default: Date.now() },
-	updatedAt: { type: Date, default: Date.now() },
+	createdAt: { type: Date, default: Date.now },
+	updatedAt: { type: Date, default: Date.now },
 	status: {
 		type: String,
 		enum: Object.values(StatusEnum),

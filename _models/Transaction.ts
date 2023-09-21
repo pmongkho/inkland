@@ -24,9 +24,9 @@ const transactionSchema = new Schema<TransactionDocument>({
 	jobId: { type: Schema.Types.ObjectId, required: true, ref: 'Job' },
 	amount: { type: Number, required: true },
 	status: { type: String, enum: Object.values(StatusEnum), required: true },
-	createdAt: { type: Date, default: Date.now() },
+	createdAt: { type: Date, default: Date.now },
 	paymentMethod: { type: String, required: true },
-	purchasedAt: { type: Date, default: Date.now() },
+	purchasedAt: { type: Date, default: Date.now },
 })
 
 const Transaction =
