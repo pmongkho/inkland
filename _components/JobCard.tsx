@@ -10,7 +10,7 @@ export async function JobCard({ data, author, user }: any) {
 		return <h1 className=' px-2 py-2'>No Data Found</h1>
 	}
 
-	const didUserLike = data.likes.includes(user?.id)
+	const didUserLike = data.likes.includes(user?.id.toString())
 	const comments = await fetch(`${process.env.URL}/api/comments/${data._id}`, {
 		cache: 'no-cache',
 		next: {
