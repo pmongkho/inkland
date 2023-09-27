@@ -11,7 +11,7 @@ export default function LikeButton({
 }: any) {
 	const [like, setLike] = useState<{ liked: boolean; likeCount: number }>({
 		liked: didUserLike,
-		likeCount: likeCount ? likeCount : 0,
+		likeCount: likeCount,
 	})
 	useEffect(() => {}, [like])
 
