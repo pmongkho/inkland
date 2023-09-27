@@ -53,7 +53,6 @@ export default function JobForm() {
 				body: JSON.stringify(job),
 			}).then((res) => {
 				res.json()
-				revalidateTag('jobs')
 			})
 
 			router.replace('profile/content/my-stuff')
