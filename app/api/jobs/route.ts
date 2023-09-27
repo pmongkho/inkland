@@ -23,7 +23,7 @@ export const POST = async (req: Request) => {
 export const GET = async (request: Request) => {
 	await startDb()
 	try {
-		const jobs = await Job.find().sort({ createdAt: -1 })
+		const jobs = await Job.find().sort({ createdAt: -1 }).populate('author')
 		return NextResponse.json(jobs) 
 	} catch (error) {
 		throw error

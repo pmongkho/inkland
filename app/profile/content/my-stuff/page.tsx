@@ -7,8 +7,8 @@ export default async function MyStuff() {
 	const jobs = await fetch(
 		`${process.env.URL}/api/auth/users/my-stuff/${session?.user.id}`,
 		{
-			// cache: 'no-cache',
-			// next: { tags: ['my-stuff'] },
+			cache: 'no-cache',
+			next: { tags: ['my-stuff'] },
 		}
 	)
 		.then((res) => res.json())

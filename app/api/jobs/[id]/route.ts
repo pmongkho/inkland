@@ -9,7 +9,7 @@ export const GET = async (
 ) => {
 	await startDb()
 
-	const job = await Job.findById(params.id)
+	const job = await Job.findById(params.id).populate('author')
 
 	return NextResponse.json(job)
 }

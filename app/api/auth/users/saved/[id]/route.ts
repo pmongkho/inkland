@@ -16,7 +16,7 @@ export async function GET(
 			_id: {
 				$in: savedArray,
 			},
-		})
+		}).populate('author')
 
 		return NextResponse.json(jobs)
 	} catch (error) {

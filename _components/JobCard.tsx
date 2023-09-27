@@ -9,11 +9,6 @@ export async function JobCard({ data, author, user }: any) {
 	if (!data) {
 		return <h1>No Data Found</h1>
 	}
-	const _author = await fetch(`${process.env.URL}/api/auth/users/${author}`)
-		.then((res) =>
-			res.json()
-		)
-		.catch((err) => console.log(err))
 
 	const didUserLike = data.likes.includes(user?.id.toString())
 	const comments = await fetch(`${process.env.URL}/api/comments/${data._id}`, {
@@ -47,16 +42,16 @@ export async function JobCard({ data, author, user }: any) {
 
 			<div className='flex items-center justify-between p-2 '>
 				<div className='flex items-center justify-center'>
-					<Avatar user={_author} size={40} />
+					<Avatar user={author} size={40} />
 					<div className='[&>*]:block px-4'>
-						<small className=''>@{_author?.username}</small>
+						<small className=''>@{author?.username}</small>
 						<small className=' text-slate-400'>
 							{moment(data?.createdAt).fromNow()}
 						</small>
 					</div>
 				</div>
 				<div className='[&>*]:block'>
-					<small>{_author?.profile.zipcode} </small>
+					<small>{author?.profile.zipcode} </small>
 				</div>
 			</div>
 			<div className=' pl-2 py-4'>{data?.tattoo.addlInfo}</div>
@@ -95,7 +90,7 @@ export async function JobCard({ data, author, user }: any) {
 								<small>{data?.tattoo.placement}</small>
 							</div>
 						</div>
-						{_author?.role === 'ARTIST' && (
+						{author?.role === 'ARTIST' && (
 							<div className='flex items-start'>
 								<small className=' font-bold'>Offer: </small>
 								<div className=' ml-1'>
@@ -116,7 +111,7 @@ export async function JobCard({ data, author, user }: any) {
 				data={data}
 				didUserLike={didUserLike}
 				user={user}
-				_author={_author}
+				author={author}
 				comments={comments}
 			/>
 		</div>

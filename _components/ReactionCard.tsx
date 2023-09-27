@@ -12,7 +12,7 @@ import Avatar from './Avatar'
 export default function ReactionCard({
 	data,
 	user,
-	_author,
+	author,
 	didUserLike,
 	comments,
 }: any) {
@@ -70,7 +70,7 @@ export default function ReactionCard({
 							/>
 						</svg>
 						<div className=' text-white'>
-							{user?.role === 'ARTIST' && _author.role === 'CLIENT' ? 'Do' : 'Get'}{' '}
+							{user?.role === 'ARTIST' && author.role === 'CLIENT' ? 'Do' : 'Get'}{' '}
 							This Tattoo
 						</div>
 					</div>
