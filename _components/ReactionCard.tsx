@@ -47,11 +47,11 @@ export default function ReactionCard({
 					sessionUserId={user?.id}
 					//boolean if user liked the job
 					didUserLike={didUserLike}
-					likeCount={data?.likes.length}
+					likeCount={data?.likes?.length}
 				/>
 
 				<div onClick={showCommentForm} className={` text-white`}>
-					{comments.length} Comments 
+					{comments?.length?comments.length:0} Comments 
 				</div>
 				<button>
 					<div className='flex items-center justify-center  p-2 rounded-md'>
