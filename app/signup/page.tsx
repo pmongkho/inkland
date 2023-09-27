@@ -8,9 +8,9 @@ import { useSession } from 'next-auth/react'
 export default function Signup() {
 	const router = useRouter()
 	const { data: session } = useSession()
-	console.log(session)
-	if (session?.user.role) {
-		router.replace('/')
+
+	if (session?.user.role || session?.user.email === 'guest@gmail.com') {
+		router.push('/')
 	}
 
 	const [roleArtist, setArtistRole] = useState(false)
