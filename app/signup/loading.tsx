@@ -1,10 +1,10 @@
 export default function Loading() {
 	// Or a custom loading skeleton component
 	return (
-		<div className=' h-[50vh] flex items-center justify-center' role='status'>
+		<div className=' h-[70vh] flex items-center justify-center' role='status'>
 			<svg
 				aria-hidden='true'
-				className='w-[50vw] h-[50vw] mr-2 text-gray-200 animate-spin dark:text-slate-50 fill-blue-600'
+				className='lg:w-[20vw] h-[30vh] mr-2 text-gray-200 animate-spin dark:text-slate-50 fill-blue-600'
 				viewBox='0 0 100 101'
 				fill='none'
 				xmlns='http://www.w3.org/2000/svg'
@@ -18,7 +18,6 @@ export default function Loading() {
 					fill='currentFill'
 				/>
 			</svg>
-			<span className='sr-only'>Loading...</span>
 		</div>
 	)
 }
