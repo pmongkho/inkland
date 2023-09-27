@@ -13,7 +13,7 @@ export default function MessengerSearchBar({ user, users, chats }: any) {
 
 	return (
 		<div className=' '>
-			<div className='w-full flex justify-between items-start z-0 bg-slate-800 border-slate-700 border-b [&>*]:mb-2 text-white  px-2 py-4 mt-2'>
+			<div className='lg:w-[40vw] w-full flex justify-between items-start z-0 bg-slate-800 border-slate-700 border-b [&>*]:mb-2 text-white  px-2 py-4 mt-2'>
 				<div className={`${messageSearch ? 'hidden' : 'visible'}`}>
 					<input
 						className={`

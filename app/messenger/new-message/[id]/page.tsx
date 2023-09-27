@@ -72,7 +72,7 @@ export default async function NewMessage({
 			</div> */}
 
 			<form action={submitMessage}>
-				<div className='fixed bottom-8 flex items-center justify-between space-x-2  pr-4 w-full'>
+				<div className='lg:w-[40vw] fixed bottom-8 flex items-center justify-between space-x-2  pr-4 w-full'>
 					<input
 						type='text'
 						name='content'

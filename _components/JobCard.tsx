@@ -18,7 +18,7 @@ export async function JobCard({ data, author, user }: any) {
 		},
 	}).then((res) => res.json()).catch((err)=>console.error(err))
 	return (
-		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl'>
+		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl lg:w-[40vw]'>
 			{author._id.toString() === user?.id.toString() && (
 				<div className=' flex items-center justify-end'>
 					<button className=' p-2 rounded-full '>
@@ -65,7 +65,7 @@ export async function JobCard({ data, author, user }: any) {
 				mb-1'
 			>
 				<div className='flex justify-between items-start'>
-					<div className='w-[50vw]'>
+					<div className='w-[50vw] lg:w-[20vw]'>
 						<SwiperPics photos={data.tattoo.photos} />
 					</div>
 

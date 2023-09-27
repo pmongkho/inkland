@@ -63,7 +63,7 @@ export default function Signup() {
 	}
 
 	return (
-		<div className='h-screen flex flex-col items-start justify-center '>
+		<div className='lg:w-[40vw] h-screen flex flex-col items-start justify-center '>
 			<form
 				action={handleSubmit}
 				className='border border-slate-700 px-6 py-8 rounded shadow-md w-full'

@@ -13,7 +13,7 @@ export default async function SignIn() {
 
 	return (
 
-			<div className='-mt-14'>
+			<div className='-mt-14 lg:w-[40vw]'>
 				<Hero />
 				<div className='flex items-center justify-center'>
 					<div className='bg-white shadow rounded-lg mt-8'>
