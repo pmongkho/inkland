@@ -34,7 +34,7 @@ export default function LikeButton({
 				body: JSON.stringify(likeBody),
 			}).then((res) => {
 				res.json()
-				revalidateTag('jobs')
+				revalidateTag('saved')
 			})
 		} catch (error) {
 			throw error
