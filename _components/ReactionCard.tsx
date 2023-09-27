@@ -47,7 +47,7 @@ export default function ReactionCard({
 					sessionUserId={user?.id}
 					//boolean if user liked the job
 					didUserLike={didUserLike}
-					likeCount={data?.likes?.length}
+					likeCount={data?.likes?.length?data?.likes?.length:0}
 				/>
 
 				<div onClick={showCommentForm} className={` text-white`}>
