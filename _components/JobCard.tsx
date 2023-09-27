@@ -16,7 +16,7 @@ export async function JobCard({ data, author, user }: any) {
 		next: {
 			tags: ['comments'],
 		},
-	}).then((res) => res.json())
+	}).then((res) => res.json()).catch((err)=>console.error(err))
 	return (
 		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl'>
 			{author._id.toString() === user?.id.toString() && (

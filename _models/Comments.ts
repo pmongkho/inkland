@@ -3,7 +3,7 @@ import { JobDocument } from './Job'
 import { UserDocument } from './User'
 
 export interface CommentDocument extends Document {
-	author: UserDocument,
+	author: UserDocument['_id'],
 	job: JobDocument['_id']
 	content: string
 	mentions: [UserDocument['_id']]

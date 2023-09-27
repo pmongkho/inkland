@@ -4,7 +4,6 @@ import startDb from '@/_lib/db'
 import Comment from '@/_models/Comments'
 import Job from '@/_models/Job'
 import { ObjectId } from 'mongoose'
-import { revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 export const GET = async (
