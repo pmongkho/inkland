@@ -19,7 +19,7 @@ export async function JobCard({ data, author, user }: any) {
 	}).then((res) => res.json())
 	return (
 		<div className=' bg-slate-800 pt-2 mb-4 shadow-xl'>
-			{author.toString() === user?.id.toString() && (
+			{author._id.toString() === user?.id.toString() && (
 				<div className=' flex items-center justify-end'>
 					<button className=' p-2 rounded-full '>
 						<svg
