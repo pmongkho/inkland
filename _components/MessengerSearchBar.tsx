@@ -67,8 +67,8 @@ export default function MessengerSearchBar({ user, users, chats }: any) {
 				</button>
 			</div>
 			<div>
-				{chats.length !== 0 ? (
-					chats.map((chat: any) => (
+				{chats?.length !== 0 ? (
+					chats?.map((chat: any) => (
 						<Link href={`/messenger/message/${chat._id}`}>
 							<MessengerCard user={user} chat={chat} />
 						</Link>
