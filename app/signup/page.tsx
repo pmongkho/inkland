@@ -31,7 +31,9 @@ export default function Signup() {
 		setRole(value)
 	}
 
-	const handleSubmit = async (data: FormData) => {
+	const handleSubmit = async (
+	// 
+	data:FormData) => {
 		if (!_role) return
 
 		const username = data.get('username')?.toString()

@@ -14,6 +14,8 @@ export default async function Home() {
 		redirect('/signup')
 	}
 
+	redirect('/job-page')
+
 	return (
 		<div className='lg:w-[40vw] pt-4 flex items-end justify-center max-h-screen'>
 			<div className=' px-2'>
