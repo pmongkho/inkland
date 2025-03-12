@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2017",
+        "types": [
+          "next-auth"
+        ],
     "lib": [
       "dom",
       "dom.iterable",
@@ -35,6 +38,7 @@
     "**/*.tsx",
     ".next/_types/**/*.ts",
     "_types/custom.d.ts",
+    "next-auth.d.ts",
     ".next/types/**/*.ts"
 , "app/api/jobs/[id]"  ],
   "exclude": [

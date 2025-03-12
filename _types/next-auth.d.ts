@@ -1,31 +1,31 @@
-import { ObjectId } from 'mongoose'
+import {ObjectId} from 'mongoose'
 import { DefaultSession, DefaultUser } from 'next-auth'
-import { JWT, DefaultJWT } from 'next-auth/jwt'
+import { JWT } from 'next-auth/jwt'
 
 declare module 'next-auth' {
 	interface Session {
 		user: {
-			id: ObjectId|Request|undefined
-			userRole: string
-			email: Request | string| undefined
+			id: string | ObjectId // ✅ Ensure ID is always a string (avoid ObjectId mismatch)
+			role: string
+			email: string
 			name: string
+			username: string
 			image: string
-			phone: string
 			zipcode: string
-		} & DefaultSession
+		} & DefaultSession['user']
 	}
 
 	interface User extends DefaultUser {
-		userRole: string
-		phone: string
+		id: string // ✅ Ensure ID is a string
+		role: string
 		zipcode: string
 	}
-}
 
-declare module 'next-auth/jwt' {
-	interface JWT extends DefaultJWT {
-		userRole: string
-		phone: string
-		zipcode: string
+	interface JWT {
+		id: string // ✅ Ensure JWT `id` is also a string
+		role: string
+		email: string
+		name?: string
+		image?: string
 	}
 }

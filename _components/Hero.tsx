@@ -1,13 +1,19 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import hero from '../_media/images/hero.jpeg'
+import svg1 from '../_media/svg/svgtattoo.svg'
+import svg2 from '../_media/svg/svgtattooblue.svg'
+import svg3 from '../_media/svg/svgblack.svg'
+const images = [svg1, svg2, svg3]
 
 export default function Hero() {
+
 	return (
-		<div className='relative '>
-			<h1 className='absolute ml-2 top-[30%] block text-white text-8xl'>Inkland</h1>
-			<Image className='' src={hero} alt='hero' />
-			<big className='text-4xl mt-4 block px-4'>Bringing tattoo artists and clients together.</big>
+		<div className=' '>
+	<Image src={svg1} alt='svg1'></Image>
+	
 		</div>
 	)
 }

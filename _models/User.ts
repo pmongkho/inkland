@@ -11,6 +11,7 @@ enum RoleEnum {
 }
 
 export interface UserDocument extends Document {
+	emailVerified: Date
 	username: string
 	role: RoleEnum
 	profile: {
@@ -36,6 +37,7 @@ export interface UserDocument extends Document {
 }
 
 const userSchema = new Schema<UserDocument>({
+	emailVerified: { type: Date, default: null },
 	username: { type: String, required: true, unique: true },
 	role: {
 		type: String,
@@ -46,14 +48,18 @@ const userSchema = new Schema<UserDocument>({
 		name: {
 			type: String,
 			required: true,
+			default: 'Anonymous',
 		},
 		email: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		image: {
 			type: String,
 			required: true,
+			default:
+				'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw0RgK0gLA0t9ehqY1OX0R6T&ust=1741841913693000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiW1vfgg4wDFQAAAAAdAAAAABAE',
 		},
 		zipcode: {
 			type: String,
@@ -80,7 +86,7 @@ const userSchema = new Schema<UserDocument>({
 			post: { type: Schema.Types.ObjectId, required: true, ref: 'Job' },
 		},
 	],
-	completed: [{ type: Schema.Types.ObjectId, default: [], ref:'Job' }],
+	completed: [{ type: Schema.Types.ObjectId, default: [], ref: 'Job' }],
 })
 
 const User = models?.User || model('User', userSchema)

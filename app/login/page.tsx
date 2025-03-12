@@ -1,10 +1,10 @@
+import {getServerSession} from 'next-auth'
+import {authOptions} from '../api/auth/[...nextauth]/options'
+import {redirect} from 'next/navigation'
+import Hero from '@/_components/Hero'
 import GoogleButton from '@/_components/GoogleButton'
 import GuestButton from '@/_components/GuestButton'
-import Hero from '@/_components/Hero'
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
-import React from 'react'
-import { authOptions } from '../api/auth/[...nextauth]/options'
+import MagicLinkButton from '@/_components/MagicLinkButton'
 
 export default async function SignIn() {
 	const session = await getServerSession(authOptions)
@@ -13,15 +13,23 @@ export default async function SignIn() {
 	}
 
 	return (
-		<div className='-mt-14 lg:w-[40vw]'>
-			<Hero />
-			<div className='flex items-center justify-center'>
+		<div className=' flex flex-col items-center  justify-start px-4 h-full'>
+			{/* Hero Section */}
+			<div className='h-[55vh] flex items-start justify-center w-full'>
 				<div>
-					<div className='bg-white shadow rounded-lg mt-8'>
-						<GoogleButton />
-					</div>
-					<GuestButton />
+					<h1 className='block text-white text-3xl font-bold '>Inkland.</h1>
+					<Hero /> {/* Tagline */}
+					<big className='text-2xl text-center text-white mt-8'>
+						Bringing tattoo artists and clients together.
+					</big>
 				</div>
+			</div>
+
+			{/* Authentication Buttons */}
+			<div className='flex flex-col items-center w-full space-y-4 py-10'>
+				<GoogleButton />
+				<MagicLinkButton/>
+				<GuestButton />
 			</div>
 		</div>
 	)

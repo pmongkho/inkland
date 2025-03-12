@@ -9,6 +9,7 @@ import { authOptions } from './api/auth/[...nextauth]/options'
 export default async function Home() {
 	const session = await getServerSession(authOptions)
 	const user = session?.user
+	console.log(user)
 
 	if (session?.user.role === undefined && session?.user) {
 		redirect('/signup')
