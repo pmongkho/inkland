@@ -1,20 +1,18 @@
 // In your NextAuth configuration file
 import startDb from '@/_lib/db'
-import User from '@/_models/User'
+import User, {UserDocument} from '@/_models/User'
 import { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import EmailProvider from 'next-auth/providers/email'
-import {MongoDBAdapter} from '@next-auth/mongodb-adapter'
-import clientPromise from "@/_lib/mongodb"  // Your MongoDB connection
-import {Resend} from 'resend'
-import {ObjectId} from 'mongoose'
-
+import { CustomMongoDBAdapter } from '@/_lib/customMongoDBAdapter'
+import clientPromise from '@/_lib/mongodb' // Your MongoDB connection
+import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const authOptions: NextAuthOptions = {
-	adapter: MongoDBAdapter(clientPromise), // Add MongoDB Adapter ✅
+	adapter: CustomMongoDBAdapter(clientPromise), // Add MongoDB Adapter ✅
 	// adapter:undefined,
 	pages: {
 		signIn: '/login',
@@ -28,6 +26,8 @@ export const authOptions: NextAuthOptions = {
 			clientSecret: process.env.GOOGLE_SECRET as string,
 			authorization: {
 				params: {
+					scope: 'openid email profile', // 🔥 Ensure email scope is included
+
 					prompt: 'consent',
 					access_type: 'offline',
 					response_type: 'code',
@@ -49,65 +49,86 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 
-		CredentialsProvider({
-			name: 'Credentials',
-			credentials: {
-				email: { label: 'email', type: 'text', placeholder: 'email' },
-				name: { label: 'name', type: 'text', placeholder: 'name' },
-				image: { label: 'image', type: 'text', placeholder: 'image' },
-				id: { label: 'id', type: 'text', placeholder: 'id' },
-				username: { label: 'username', type: 'text', placeholder: 'username' },
-				role: { label: 'role', type: 'text', placeholder: 'role' },
-				zipcode: { label: 'zipcode', type: 'text', placeholder: 'zipcode' },
-			},
-			async authorize(credentials, req) {
-				await startDb()
-				const user: any = await User.findOne({
-					'profile.email': credentials?.email,
-				})
-				// Return the user if found, otherwise return null.
-				return user ? user : null
-			},
-		}),
+		// CredentialsProvider({
+		// 	name: 'Credentials',
+		// 	credentials: {
+		// 		email: { label: 'email', type: 'text', placeholder: 'email' },
+		// 		name: { label: 'name', type: 'text', placeholder: 'name' },
+		// 		image: { label: 'image', type: 'text', placeholder: 'image' },
+		// 		id: { label: 'id', type: 'text', placeholder: 'id' },
+		// 		username: { label: 'username', type: 'text', placeholder: 'username' },
+		// 		role: { label: 'role', type: 'text', placeholder: 'role' },
+		// 		zipcode: { label: 'zipcode', type: 'text', placeholder: 'zipcode' },
+		// 	},
+		// 	async authorize(credentials, req) {
+		// 		await startDb()
+		// 		const user: any = await User.findOne({
+		// 			'profile.email': credentials?.email,
+		// 		})
+		// 		// Return the user if found, otherwise return null.
+		// 		return user ? user : null
+		// 	},
+		// }),
 	],
 	callbacks: {
-		async signIn({ user, account }) {
-			// Only modify for email sign-in
-			if (account?.provider === 'email') {
-				// Example: update the user record with default fields if they are missing
-				await User.updateOne(
-					{ email: user.email },
-					{
-						$setOnInsert: {
-							// Insert these fields only when the user is created for the first time
-							role: 'CLIENT', // default role for email sign-in users
-							username: user.email?.split('@')[0],
-							name: user.email?.split('@')[0],	//*create funny names generate
-							image:
-								'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw0RgK0gLA0t9ehqY1OX0R6T&ust=1741841913693000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiW1vfgg4wDFQAAAAAdAAAAABAE',
-							zipcode: '00000', // default zipcode for email sign-in users
-							// Add any additional default fields here
-							// You can add any additional default fields here
-						},
-					},
-					{ upsert: true }
-				)
-			}
-			return true
-		},
 		async jwt({ token, user }) {
-			// ✅ If a new user is signing in, store their details in the token
-			if (user) {
-				token.id = user.id?.toString() ?? ''
-				token.role = user.role
-				token.email = user.email // Ensure email is stored for magic links
+			console.log('🟢 User during JWT creation:', user)
+
+			await startDb()
+
+			// ✅ If a new user is signing in, set initial token fields
+   if (user) {
+			token.id = user.id
+			token.role = user.role
+			token.email = user.profile?.email || user.email || 'MISSING_EMAIL' // ✅ Fix here
+			token.username = user.username
+			token.name = user.profile?.name || user.name
+			token.image = user.profile?.image || user.image
+			token.zipcode = user.profile?.zipcode || '00000' // Default value
+		}
+
+			// ✅ Always fetch latest user data from DB (to update role, username, etc.)
+			console.log('🔍 Searching for user with token. email:', token.email)
+
+			const updatedUser = await User.findOne({
+				'profile.email': token.email,
+			}).lean()
+
+			console.log('jwtuser: ', updatedUser)
+			if (updatedUser) {
+				token.id = updatedUser._id.toString()
+				token.role = updatedUser.role.toString()
+				token.username = updatedUser.username.toString()
+				token.zipcode = updatedUser.profile.zipcode.toString()
+				token.name = updatedUser.profile.name.toString()
+				token.image = updatedUser.profile.image.toString()
 			}
+
 			return token
 		},
+
 		async session({ session, token }) {
-			session.user.id = token.id as ObjectId
-			session.user.role = token.role
-			session.user.email = token.email as string
+			console.log('🟢 Token inside session callback:', token)
+
+			await startDb()
+			// ✅ Always fetch latest user data before returning session
+			const updatedUser = await User.findOne({
+				'profile.email': token.email,
+			}).lean()
+
+			console.log('sessionuser: ', updatedUser)
+
+			// ✅ Use token data (no DB call needed)
+			session.user = {
+				id: updatedUser?._id.toString() || '',
+				role: updatedUser?.role || 'BLANK', // 🔥 Default value for role
+				email: updatedUser?.profile.email || '', // 🔥 Ensure email is a string
+				username: updatedUser?.username || '', // 🔥 Ensure username is a string
+				name: updatedUser?.profile.name || '', // 🔥 Ensure name is a string
+				image: updatedUser?.profile.image || '', // 🔥 Ensure image is a string
+				zipcode: updatedUser?.profile.zipcode || '', // 🔥 Ensure zipcode is a string
+			}
+
 			return session
 		},
 	},

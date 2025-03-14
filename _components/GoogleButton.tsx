@@ -1,12 +1,12 @@
 'use client'
-import { signIn, } from 'next-auth/react'
+import { signIn, signOut, } from 'next-auth/react'
 import { JSX, SVGProps } from 'react'
 
 const GoogleButton = () => {
 	return (
 		<div
 			className='flex w-full justify-center gap-5 rounded bg-gray-700 text-white py-4 px-4 font-bold drop-shadow-md hover:bg-gray-50'
-			onClick={() => signIn('google')}
+			onClick={() => {signOut({redirect: false}) ,signIn('google')}}
 		>
 			<GoogleLogo />
 			<div>Sign in with Google</div>

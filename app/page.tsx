@@ -5,18 +5,17 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import image from '../_media/images/artist.jpeg'
 import { authOptions } from './api/auth/[...nextauth]/options'
+import { NextResponse } from 'next/server'
+import { signOut } from 'next-auth/react'
 
 export default async function Home() {
 	const session = await getServerSession(authOptions)
 	const user = session?.user
-	console.log(user)
+	console.log("sessionuser: ",user)
 
-	if (session?.user.role === undefined && session?.user) {
-		redirect('/signup')
+	if (!user?.role) {
+		// redirect('/api/auth/signout')
 	}
-
-	redirect('/job-page')
-
 	return (
 		<div className='lg:w-[40vw] pt-4 flex items-end justify-center max-h-screen'>
 			<div className=' px-2'>

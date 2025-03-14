@@ -28,17 +28,26 @@ export default function LikeButton({
 			jobId,
 		}
 
-		try {
-			await fetch('/api/like', {
-				method: 'POST',
-				body: JSON.stringify(likeBody),
-			}).then((res) => {
-				res.json()
-				revalidateTag('saved')
-			})
-		} catch (error) {
-			throw error
-		}
+try {
+	const res = await fetch('/api/like', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(likeBody),
+	})
+
+	if (!res.ok) {
+		throw new Error('Failed to update like')
+	}
+
+	const data = await res.json()
+	// ✅ Update state with new like count and toggle liked state
+	setLike((prev) => ({
+		liked: !prev.liked, // Toggle liked state
+		likeCount: data.likes, // Update like count from API
+	}))
+} catch (error) {
+	console.error('Error liking the job:', error)
+}
 	}
 
 	return (

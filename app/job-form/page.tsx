@@ -13,7 +13,6 @@ import { revalidateTag } from 'next/cache'
 export default function JobForm() {
 	const { data: session } = useSession()
 	const user = session?.user
-	console.log(user)
 	const router = useRouter()
 	const [uploadFiles, setUploadFiles] = useState<
 		| {

@@ -9,16 +9,44 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 	await startDb()
 	const body = await req.json()
 
-	const oldUser = await User.findOne({ username: body.username })
-	if (oldUser)
-		return NextResponse.json(
-			{ error: 'username is already in use!' },
-			{ status: 422 }
-		)
-	const user = await User.create({ ...body })
+	// Ensure email exists in request
+	if (!body.email) {
+		return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+	}
 
-	return NextResponse.json(user)
+	// Find existing user
+	const existingUser = await User.findOne({ 'profile.email': body.email })
+
+	if (existingUser) {
+		// ✅ Only update `username`, `zipcode`, and `role`
+		const updatedUser = await User.findOneAndUpdate(
+			{ 'profile.email': body.email },
+			{
+				$set: {
+					username: body.username,
+					'profile.zipcode': body.zipcode,
+					role: body.role,
+				},
+			},
+			{ new: true, runValidators: true } // ✅ Ensure Mongoose validation
+		)
+
+		return NextResponse.json(updatedUser)
+	}
+
+	// If user does not exist, create a new one (fallback)
+	const newUser = await User.create({
+		email: body.email,
+		username: body.username || 'default_user',
+		role: body.role || 'BLANK',
+		profile: {
+			zipcode: body.zipcode || '00000',
+		},
+	})
+
+	return NextResponse.json(newUser)
 }
+
 
 export const GET = async (req: Request) => {
 	try {

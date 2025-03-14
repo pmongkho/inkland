@@ -11,6 +11,7 @@ export default async function SignIn() {
 	if (session?.user) {
 		redirect('/')
 	}
+	console.log(session?.user)
 
 	return (
 		<div className=' flex flex-col items-center  justify-start px-4 h-full'>

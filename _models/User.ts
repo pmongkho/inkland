@@ -8,10 +8,11 @@ enum RoleEnum {
 	ADMIN = 'ADMIN',
 	ARTIST = 'ARTIST',
 	CLIENT = 'CLIENT',
+	BLANK = 'BLANK',
 }
 
 export interface UserDocument extends Document {
-	emailVerified: Date
+	emailVerified?: Date | null // ✅ Make it optional to match schema
 	username: string
 	role: RoleEnum
 	profile: {
@@ -19,7 +20,7 @@ export interface UserDocument extends Document {
 		email: string
 		image: string
 		zipcode: string
-		bio: String
+		bio: string
 	}
 	jobs: [JobDocument['_id']] //post created by user
 	followers: [UserDocument['_id']] //followers of user
@@ -43,12 +44,12 @@ const userSchema = new Schema<UserDocument>({
 		type: String,
 		enum: Object.values(RoleEnum),
 		required: true,
+		default: RoleEnum.BLANK,
 	},
 	profile: {
 		name: {
 			type: String,
 			required: true,
-			default: 'Anonymous',
 		},
 		email: {
 			type: String,
@@ -80,12 +81,15 @@ const userSchema = new Schema<UserDocument>({
 		{ type: Schema.Types.ObjectId, default: [], ref: 'BuyerSellerChat' },
 	],
 	saved: [{ type: Schema.Types.ObjectId, default: [], ref: 'Job' }],
-	tagged: [
-		{
-			user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
-			post: { type: Schema.Types.ObjectId, required: true, ref: 'Job' },
-		},
-	],
+	tagged: {
+		type: [
+			{
+				user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+				post: { type: Schema.Types.ObjectId, required: true, ref: 'Job' },
+			},
+		],
+		default: [], // ✅ Default to an empty array to avoid errors
+	},
 	completed: [{ type: Schema.Types.ObjectId, default: [], ref: 'Job' }],
 })
 

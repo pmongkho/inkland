@@ -8,11 +8,6 @@ import { signOut, useSession } from 'next-auth/react'
 export default function Signup() {
 	const router = useRouter()
 	const { data: session } = useSession()
-
-	if (session?.user.role || session?.user.email === 'guest@gmail.com') {
-		router.push('/')
-	}
-
 	const [roleArtist, setArtistRole] = useState(false)
 	const [roleClient, setClientRole] = useState(false)
 	const [_role, setRole] = useState('')
@@ -32,15 +27,18 @@ export default function Signup() {
 	}
 
 	const handleSubmit = async (
-	// 
-	data:FormData) => {
+		//
+		data: FormData
+	) => {
 		if (!_role) return
 
 		const username = data.get('username')?.toString()
 		const name = session?.user.name || 'anonymous'
 		const email = session?.user.email
 		const zipcode = data.get('zipcode')?.toString()
-		const image = session?.user.image || 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw0RgK0gLA0t9ehqY1OX0R6T&ust=1741841913693000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiW1vfgg4wDFQAAAAAdAAAAABAE'
+		const image =
+			session?.user.image ||
+			'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw0RgK0gLA0t9ehqY1OX0R6T&ust=1741841913693000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiW1vfgg4wDFQAAAAAdAAAAABAE'
 		const role = _role
 
 		const userInfo = {
@@ -54,18 +52,19 @@ export default function Signup() {
 			},
 		}
 
-	try {
-		const res = await fetch('/api/auth/users', {
-			method: 'POST',
-			body: JSON.stringify(userInfo),
-		}).then((res) => res.json())
+		try {
+			const res = await fetch('/api/auth/users', {
+				method: 'POST',
+				body: JSON.stringify(userInfo),
+			}).then((res) => res.json())
 
-		// **Sign out the user and redirect to login**
-		await signOut({ redirect: true }) // Ensure signOut runs first
-		router.replace('/login') // Redirect to login page
-	} catch (error) {
-		console.error('Error creating account:', error)
-	}
+			// **Sign out the user and redirect to login**
+			if (session?.user.role === undefined) {
+				await signOut({ redirect: true }) // Ensure signOut runs first
+			}
+		} catch (error) {
+			console.error('Error creating account:', error)
+		}
 	}
 
 	return (
